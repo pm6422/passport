@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
@@ -32,11 +33,8 @@ import java.util.Optional;
 public class AopLoggingAspect {
 
     public static final String                REQUEST_ID = "X-REQUEST-ID";
-    private final       ApplicationProperties applicationProperties;
-
-    public AopLoggingAspect(ApplicationProperties applicationProperties) {
-        this.applicationProperties = applicationProperties;
-    }
+    @Resource
+    private             ApplicationProperties applicationProperties;
 
     /**
      * Log method arguments and result of controller
@@ -72,15 +70,13 @@ public class AopLoggingAspect {
     }
 
     public void beforeRun(ProceedingJoinPoint joinPoint, HttpServletRequest request) {
-        if (!needLogOutput(joinPoint)) {
+        if (printLog(joinPoint)) {
             return;
         }
         // Store request id
-        if (StringUtils.isNotEmpty(request.getHeader(REQUEST_ID))) {
-            RequestIdHolder.setRequestId(request.getHeader(REQUEST_ID));
-        } else {
-            RequestIdHolder.setRequestId("R" + IdGenerator.generateTimestampId());
-        }
+        String requestId = Optional.ofNullable(request.getHeader(REQUEST_ID)).orElse("R" + IdGenerator.generateTimestampId());
+        RequestIdHolder.setRequestId(requestId);
+
         String[] paramNames = ((MethodSignature) joinPoint.getSignature()).getParameterNames();
         Object[] arguments = joinPoint.getArgs();
         Map<String, Object> paramMap = new HashMap<>(arguments.length);
@@ -97,10 +93,10 @@ public class AopLoggingAspect {
     }
 
     private void afterRun(ProceedingJoinPoint joinPoint, HttpServletResponse response, Object result) {
-        if (!needLogOutput(joinPoint)) {
+        if (printLog(joinPoint)) {
             return;
         }
-        Optional.ofNullable(response).ifPresent(r -> r.setHeader(REQUEST_ID, RequestIdHolder.getRequestId()));
+        Optional.ofNullable(response).ifPresent(resp -> resp.setHeader(REQUEST_ID, RequestIdHolder.getRequestId()));
         log.info("{} Response: {}.{}() with result = {}",
                 RequestIdHolder.getRequestId(),
                 joinPoint.getSignature().getDeclaringType().getSimpleName(),
@@ -108,8 +104,8 @@ public class AopLoggingAspect {
                 result);
     }
 
-    private boolean needLogOutput(ProceedingJoinPoint joinPoint) {
-        return log.isInfoEnabled() && matchLogMethod(joinPoint);
+    private boolean printLog(ProceedingJoinPoint joinPoint) {
+        return !log.isInfoEnabled() || !matchLogMethod(joinPoint);
     }
 
     private boolean matchLogMethod(ProceedingJoinPoint joinPoint) {
