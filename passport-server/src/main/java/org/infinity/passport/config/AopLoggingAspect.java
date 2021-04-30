@@ -84,7 +84,7 @@ public class AopLoggingAspect {
                 paramMap.put(paramNames[i], arguments[i]);
             }
         }
-        log.info("{}.{}() with argument[s] = {}",
+        log.info("Request of {}.{}() with argument[s] = {}",
                 joinPoint.getSignature().getDeclaringType().getSimpleName(),
                 joinPoint.getSignature().getName(),
                 paramMap);
@@ -95,7 +95,7 @@ public class AopLoggingAspect {
             return;
         }
         Optional.ofNullable(response).ifPresent(resp -> resp.setHeader(REQUEST_ID, MDC.get(REQUEST_ID)));
-        log.info("{}.{}() with result = {}",
+        log.info("Response of {}.{}() with result = {}",
                 joinPoint.getSignature().getDeclaringType().getSimpleName(),
                 joinPoint.getSignature().getName(),
                 result);
