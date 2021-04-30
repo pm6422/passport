@@ -26,6 +26,7 @@ import static org.infinity.passport.utils.id.IdGenerator.generateTimestampId;
 /**
  * Aspect for logging execution arguments and result of the method.
  * <p>
+ * https://www.toutiao.com/i6807750667449401869/
  * https://www.toutiao.com/i6949421858303377923/
  * http://www.imooc.com/article/297283
  */
@@ -64,7 +65,7 @@ public class AopLoggingAspect {
                     joinPoint.getSignature().getName());
             throw e;
         } finally {
-            MDC.clear();
+            MDC.remove(REQUEST_ID);
         }
     }
 
