@@ -1,13 +1,11 @@
 package org.infinity.passport.config;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.infinity.passport.utils.RequestIdHolder;
-import org.infinity.passport.utils.id.IdGenerator;
+import org.slf4j.MDC;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -23,8 +21,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import static org.infinity.passport.utils.id.IdGenerator.generateTimestampId;
+
 /**
  * Aspect for logging execution arguments and result of the method.
+ * <p>
+ * https://www.toutiao.com/i6949421858303377923/
+ * http://www.imooc.com/article/297283
  */
 @Aspect
 @ConditionalOnProperty(prefix = "application.aop-logging", value = "enabled", havingValue = "true")
@@ -38,8 +41,6 @@ public class AopLoggingAspect {
 
     /**
      * Log method arguments and result of controller
-     * <p>
-     * Refer to http://www.imooc.com/article/297283
      *
      * @param joinPoint join point
      * @return return value
@@ -63,9 +64,7 @@ public class AopLoggingAspect {
                     joinPoint.getSignature().getName());
             throw e;
         } finally {
-            if (StringUtils.isNotEmpty(RequestIdHolder.getRequestId())) {
-                RequestIdHolder.destroy();
-            }
+            MDC.clear();
         }
     }
 
@@ -74,8 +73,8 @@ public class AopLoggingAspect {
             return;
         }
         // Store request id
-        String requestId = Optional.ofNullable(request.getHeader(REQUEST_ID)).orElse("R" + IdGenerator.generateTimestampId());
-        RequestIdHolder.setRequestId(requestId);
+        String requestId = Optional.ofNullable(request.getHeader(REQUEST_ID)).orElse("R" + generateTimestampId());
+        MDC.put(REQUEST_ID, requestId);
 
         String[] paramNames = ((MethodSignature) joinPoint.getSignature()).getParameterNames();
         Object[] arguments = joinPoint.getArgs();
@@ -85,8 +84,7 @@ public class AopLoggingAspect {
                 paramMap.put(paramNames[i], arguments[i]);
             }
         }
-        log.info("{} Request: {}.{}() with argument[s] = {}",
-                RequestIdHolder.getRequestId(),
+        log.info("{}.{}() with argument[s] = {}",
                 joinPoint.getSignature().getDeclaringType().getSimpleName(),
                 joinPoint.getSignature().getName(),
                 paramMap);
@@ -96,9 +94,8 @@ public class AopLoggingAspect {
         if (printLog(joinPoint)) {
             return;
         }
-        Optional.ofNullable(response).ifPresent(resp -> resp.setHeader(REQUEST_ID, RequestIdHolder.getRequestId()));
-        log.info("{} Response: {}.{}() with result = {}",
-                RequestIdHolder.getRequestId(),
+        Optional.ofNullable(response).ifPresent(resp -> resp.setHeader(REQUEST_ID, MDC.get(REQUEST_ID)));
+        log.info("{}.{}() with result = {}",
                 joinPoint.getSignature().getDeclaringType().getSimpleName(),
                 joinPoint.getSignature().getName(),
                 result);
