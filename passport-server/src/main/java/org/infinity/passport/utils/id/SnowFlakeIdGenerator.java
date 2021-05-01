@@ -11,6 +11,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * 基于Twitter的Snowflake算法实现分布式高效有序ID生产黑科技(sequence)——升级版Snowflake
+ * https://github.com/twitter/snowflake/tree/snowflake-2010
  *
  * <br>
  * SnowFlake的结构如下(每部分用-分开):<br>
@@ -82,7 +83,10 @@ final class SnowFlakeIdGenerator {
     private final static long SEQUENCE_MASK = ~(-1L << SEQUENCE_BITS);
 
     private final long workerId;
-    //支持多数据中心
+
+    /**
+     * 支持多数据中心
+     */
     private final long dataCenterId;
     private       long sequence      = 0L;
     private       long lastTimestamp = -1L;
@@ -97,7 +101,7 @@ final class SnowFlakeIdGenerator {
      * @param dataCenterId 数据中心ID,数据范围为0~3
      */
     public SnowFlakeIdGenerator(long dataCenterId) {
-        this(dataCenterId, 0x000000FF & getLastIPAddress(), false, 5L, false);
+        this(dataCenterId, 0x000000FF & getLastIpAddress(), false, 5L, false);
     }
 
     /**
@@ -106,7 +110,7 @@ final class SnowFlakeIdGenerator {
      * @param randomSequence true表示使用毫秒内的随机序列(超过范围则取余)
      */
     public SnowFlakeIdGenerator(long dataCenterId, boolean clock, boolean randomSequence) {
-        this(dataCenterId, 0x000000FF & getLastIPAddress(), clock, 5L, randomSequence);
+        this(dataCenterId, 0x000000FF & getLastIpAddress(), clock, 5L, randomSequence);
     }
 
     /**
@@ -231,7 +235,7 @@ final class SnowFlakeIdGenerator {
      *
      * @return last IP
      */
-    public static byte getLastIPAddress() {
+    public static byte getLastIpAddress() {
         if (LAST_IP != 0) {
             return LAST_IP;
         }
