@@ -47,8 +47,12 @@ public class AopLoggingAspect {
             ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
             HttpServletRequest request = servletRequestAttributes != null ? servletRequestAttributes.getRequest() : null;
             HttpServletResponse response = servletRequestAttributes != null ? servletRequestAttributes.getResponse() : null;
+            // Get traceId from http request
+            TraceIdUtils.setTraceId(request);
             beforeRun(joinPoint, request);
             Object result = joinPoint.proceed();
+            // Set traceId to http response
+            TraceIdUtils.setTraceId(response);
             afterRun(joinPoint, response, result);
             return result;
         } catch (IllegalArgumentException e) {
@@ -67,7 +71,6 @@ public class AopLoggingAspect {
         if (printLog(joinPoint)) {
             return;
         }
-        TraceIdUtils.setTraceId(request);
         String[] paramNames = ((MethodSignature) joinPoint.getSignature()).getParameterNames();
         Object[] arguments = joinPoint.getArgs();
         Map<String, Object> paramMap = new HashMap<>(arguments.length);
@@ -86,7 +89,6 @@ public class AopLoggingAspect {
         if (printLog(joinPoint)) {
             return;
         }
-        TraceIdUtils.setTraceId(response);
         log.info("Response of {}.{}() with result = {}",
                 joinPoint.getSignature().getDeclaringType().getSimpleName(),
                 joinPoint.getSignature().getName(),
