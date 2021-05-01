@@ -1,11 +1,14 @@
 package org.infinity.passport.async;
 
 import lombok.extern.slf4j.Slf4j;
+import org.infinity.passport.utils.TraceIdUtils;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.core.task.AsyncTaskExecutor;
+import org.springframework.lang.NonNull;
 
-import javax.annotation.Nonnull;
+import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 
@@ -22,32 +25,38 @@ public class ExceptionHandlingAsyncTaskExecutor implements AsyncTaskExecutor, In
     }
 
     @Override
-    public void execute(@Nonnull Runnable task) {
-        executor.execute(createWrappedRunnable(task));
+    public void execute(@NonNull Runnable task) {
+        executor.execute(createWrappedRunnable(task, MDC.getCopyOfContextMap()));
     }
 
     @Override
-    public void execute(@Nonnull Runnable task, long startTimeout) {
-        executor.execute(createWrappedRunnable(task), startTimeout);
+    public void execute(@NonNull Runnable task, long startTimeout) {
+        executor.execute(createWrappedRunnable(task, MDC.getCopyOfContextMap()), startTimeout);
     }
 
-    private <T> Callable<T> createCallable(final Callable<T> task) {
+    private <T> Callable<T> createCallable(final Callable<T> task, final Map<String, String> context) {
         return () -> {
             try {
+                TraceIdUtils.setParentMdcToChild(context);
                 return task.call();
             } catch (Exception e) {
                 handle(e);
                 throw e;
+            } finally {
+                TraceIdUtils.remove();
             }
         };
     }
 
-    private Runnable createWrappedRunnable(final Runnable task) {
+    private Runnable createWrappedRunnable(final Runnable task, final Map<String, String> context) {
         return () -> {
             try {
+                TraceIdUtils.setParentMdcToChild(context);
                 task.run();
             } catch (Exception e) {
                 handle(e);
+            } finally {
+                TraceIdUtils.remove();
             }
         };
     }
@@ -57,15 +66,15 @@ public class ExceptionHandlingAsyncTaskExecutor implements AsyncTaskExecutor, In
     }
 
     @Override
-    @Nonnull
-    public Future<?> submit(@Nonnull Runnable task) {
-        return executor.submit(createWrappedRunnable(task));
+    @NonNull
+    public Future<?> submit(@NonNull Runnable task) {
+        return executor.submit(createWrappedRunnable(task, MDC.getCopyOfContextMap()));
     }
 
     @Override
-    @Nonnull
-    public <T> Future<T> submit(@Nonnull Callable<T> task) {
-        return executor.submit(createCallable(task));
+    @NonNull
+    public <T> Future<T> submit(@NonNull Callable<T> task) {
+        return executor.submit(createCallable(task, MDC.getCopyOfContextMap()));
     }
 
     @Override
