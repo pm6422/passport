@@ -26,6 +26,10 @@ public class TraceIdUtils {
         Optional.ofNullable(response).ifPresent(resp -> resp.setHeader(TRACE_ID, MDC.get(TRACE_ID)));
     }
 
+    public static String getTraceId() {
+        return MDC.get(TRACE_ID);
+    }
+
     public static void remove() {
         MDC.remove(TRACE_ID);
     }
