@@ -27,7 +27,7 @@ public class TraceIdUtils {
     }
 
     public static String getTraceId() {
-        return MDC.get(TRACE_ID);
+        return Optional.ofNullable(MDC.get(TRACE_ID)).orElse(generateTraceId());
     }
 
     public static void remove() {
