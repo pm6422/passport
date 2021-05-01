@@ -1,6 +1,7 @@
 package org.infinity.passport.config;
 
 import lombok.extern.slf4j.Slf4j;
+import org.infinity.passport.utils.TraceIdUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,7 +20,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import static org.infinity.passport.config.AopLoggingAspect.REQUEST_ID;
 import static springfox.documentation.builders.PathSelectors.regex;
 
 /**
@@ -100,8 +100,8 @@ public class SwaggerConfiguration {
      */
     private List<Parameter> createGlobalParameters() {
         ParameterBuilder requesterParamBuilder = new ParameterBuilder();
-        requesterParamBuilder.name(REQUEST_ID)
-                .description("请求ID(全局参数)")
+        requesterParamBuilder.name(TraceIdUtils.TRACE_ID)
+                .description("Trace ID(全局参数)")
                 .modelRef(new ModelRef("string"))
                 .parameterType("header")
                 .required(false)

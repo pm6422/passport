@@ -5,7 +5,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.slf4j.MDC;
+import org.infinity.passport.utils.TraceIdUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -19,9 +19,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
-
-import static org.infinity.passport.utils.id.IdGenerator.generateTimestampId;
 
 /**
  * Aspect for logging execution arguments and result of the method.
@@ -36,9 +33,8 @@ import static org.infinity.passport.utils.id.IdGenerator.generateTimestampId;
 @Slf4j
 public class AopLoggingAspect {
 
-    public static final String                REQUEST_ID = "X-REQUEST-ID";
     @Resource
-    private             ApplicationProperties applicationProperties;
+    private ApplicationProperties applicationProperties;
 
     /**
      * Log method arguments and result of controller
@@ -65,7 +61,7 @@ public class AopLoggingAspect {
                     joinPoint.getSignature().getName());
             throw e;
         } finally {
-            MDC.remove(REQUEST_ID);
+            TraceIdUtils.remove();
         }
     }
 
@@ -73,10 +69,7 @@ public class AopLoggingAspect {
         if (printLog(joinPoint)) {
             return;
         }
-        // Store request id
-        String requestId = Optional.ofNullable(request.getHeader(REQUEST_ID)).orElse("R" + generateTimestampId());
-        MDC.put(REQUEST_ID, requestId);
-
+        TraceIdUtils.setTraceId(request);
         String[] paramNames = ((MethodSignature) joinPoint.getSignature()).getParameterNames();
         Object[] arguments = joinPoint.getArgs();
         Map<String, Object> paramMap = new HashMap<>(arguments.length);
@@ -95,7 +88,7 @@ public class AopLoggingAspect {
         if (printLog(joinPoint)) {
             return;
         }
-        Optional.ofNullable(response).ifPresent(resp -> resp.setHeader(REQUEST_ID, MDC.get(REQUEST_ID)));
+        TraceIdUtils.setTraceId(response);
         log.info("Response of {}.{}() with result = {}",
                 joinPoint.getSignature().getDeclaringType().getSimpleName(),
                 joinPoint.getSignature().getName(),

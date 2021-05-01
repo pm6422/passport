@@ -72,7 +72,7 @@ function authInterceptor ($rootScope, $q, $location, $localStorage, $sessionStor
         }
 
         // Generate request ID
-        config.headers['X-REQUEST-ID'] = 'R' + Date.now() + (Math.random() * 100000).toFixed();
+        config.headers['traceId'] = 'T' + Date.now() + (Math.random() * 100000).toFixed();
         return config;
     }
 }
