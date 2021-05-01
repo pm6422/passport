@@ -9,7 +9,10 @@ import java.util.Optional;
 
 import static org.infinity.passport.utils.id.IdGenerator.generateTimestampId;
 
-
+/**
+ * https://www.toutiao.com/i6807750667449401869/
+ * https://www.toutiao.com/i6949421858303377923/
+ */
 public class TraceIdUtils {
 
     public static final String TRACE_ID = "traceId";
