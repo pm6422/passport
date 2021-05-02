@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 @ChangeLog(order = "01")
 public class DatabaseInitializer {
 
-    private static final String APP_NAME = "PassportServer";
+    private static final String APP_NAME = "passport-server";
 
     @ChangeSet(order = "01", author = "Louis", id = "addApps", runAlways = true)
     public void addApps(MongockTemplate mongoTemplate) {
