@@ -12,7 +12,7 @@ import org.springframework.security.oauth2.common.OAuth2RefreshToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.Instant;
 
 @ApiModel("刷新令牌信息")
 @Document(collection = "MongoOAuth2RefreshToken")
@@ -29,7 +29,7 @@ public class MongoOAuth2RefreshToken extends AbstractAuditableDomain implements 
      * Delete records at a specific time automatically by mongoDB
      */
     @Indexed(expireAfterSeconds = 0)
-    private              Date                 expiration;
+    private              Instant              expiration;
     private              OAuth2Authentication authentication;
 
     public MongoOAuth2RefreshToken(OAuth2RefreshToken oAuth2RefreshToken, OAuth2Authentication authentication) {
@@ -37,7 +37,7 @@ public class MongoOAuth2RefreshToken extends AbstractAuditableDomain implements 
         this.userName = authentication.getName();
         this.clientId = authentication.getOAuth2Request().getClientId();
         this.oAuth2RefreshToken = oAuth2RefreshToken;
-        this.expiration = ((DefaultExpiringOAuth2RefreshToken) oAuth2RefreshToken).getExpiration();
+        this.expiration = ((DefaultExpiringOAuth2RefreshToken) oAuth2RefreshToken).getExpiration().toInstant();
         this.authentication = authentication;
     }
 }

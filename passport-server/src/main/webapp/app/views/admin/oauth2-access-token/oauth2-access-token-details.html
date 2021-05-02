@@ -61,16 +61,6 @@
                             <td>{{vm.entity.authentication.oauth2Request.grantType}}</td>
                         </tr>
                         <tr>
-                            <td>过期时间:</td>
-                            <td>{{vm.entity.expiration | date:'yyyy/MM/dd HH:mm:ss' }}, Remains
-                                {{vm.entity.oAuth2AccessToken.expires_in / (60 * 60 * 24)}} Days
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>是否过期:</td>
-                            <td>{{!vm.entity.authentication.principal.accountNonExpired}}</td>
-                        </tr>
-                        <tr>
                             <td>是否验证:</td>
                             <td>{{vm.entity.authentication.authenticated}}</td>
                         </tr>
@@ -87,6 +77,15 @@
                         <tr>
                             <td>修改时间:</td>
                             <td>{{vm.entity.modifiedTime | date:'yyyy/MM/dd HH:mm:ss'}}</td>
+                        </tr>
+                        <tr>
+                            <td>是否过期:</td>
+                            <td>{{!vm.entity.authentication.principal.accountNonExpired}}</td>
+                        </tr>
+                        <tr>
+                            <td>过期时间:</td>
+                            <td>{{vm.entity.expiration | date:'yyyy/MM/dd HH:mm:ss' }}
+                            </td>
                         </tr>
                         </tbody>
                     </table>
