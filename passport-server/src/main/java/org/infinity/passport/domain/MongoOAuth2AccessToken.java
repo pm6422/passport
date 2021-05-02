@@ -27,7 +27,10 @@ public class MongoOAuth2AccessToken extends AbstractAuditableDomain implements S
     private              String               authenticationId;
     private              String               userName;
     private              String               clientId;
-    @Indexed(expireAfterSeconds = 0)//Expire Documents at a Specific Clock Time
+    /**
+     * Delete records at a specific time automatically by mongoDB
+     */
+    @Indexed(expireAfterSeconds = 0)
     private              Date                 expiration;
     private              OAuth2Authentication authentication;
     private              String               refreshToken;

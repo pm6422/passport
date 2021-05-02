@@ -8,7 +8,6 @@ import org.springframework.data.mongodb.core.mapping.Field;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,12 +28,12 @@ public class PersistentAuditEvent implements Serializable {
     private Instant auditEventDate;
 
     @Field("event_type")
-    private String auditEventType;
+    private String  auditEventType;
     /**
      * Delete records at a specific time automatically by mongoDB
      */
     @Indexed(expireAfterSeconds = 0)
-    private Date expiration;
+    private Instant expiryTime;
 
     private Map<String, String> data = new HashMap<>();
 
