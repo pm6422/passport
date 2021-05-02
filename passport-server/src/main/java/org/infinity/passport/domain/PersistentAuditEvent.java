@@ -30,8 +30,10 @@ public class PersistentAuditEvent implements Serializable {
 
     @Field("event_type")
     private String auditEventType;
-
-    @Indexed(expireAfterSeconds = 0)//Expire Documents at a Specific Clock Time
+    /**
+     * Delete records at a specific time automatically by mongoDB
+     */
+    @Indexed(expireAfterSeconds = 0)
     private Date expiration;
 
     private Map<String, String> data = new HashMap<>();
