@@ -25,7 +25,10 @@ public class MongoOAuth2RefreshToken extends AbstractAuditableDomain implements 
     private              String               userName;
     private              String               clientId;
     private              OAuth2RefreshToken   oAuth2RefreshToken;
-    @Indexed(expireAfterSeconds = 0)//Expire Documents at a Specific Clock Time
+    /**
+     * Delete records at a specific time automatically by mongoDB
+     */
+    @Indexed(expireAfterSeconds = 0)
     private              Date                 expiration;
     private              OAuth2Authentication authentication;
 
