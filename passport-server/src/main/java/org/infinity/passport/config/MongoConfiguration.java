@@ -32,9 +32,9 @@ import java.util.List;
  * Using @EnableMongock with minimal configuration only requires changeLog package to scan
  * in property file
  */
+@EnableMongoAuditing(auditorAwareRef = "springSecurityAuditorAware")
 @EnableMongock
 @Configuration
-@EnableMongoAuditing(auditorAwareRef = "springSecurityAuditorAware")
 @Slf4j
 public class MongoConfiguration {
 
