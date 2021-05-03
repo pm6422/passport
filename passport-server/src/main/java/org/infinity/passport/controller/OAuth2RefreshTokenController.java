@@ -39,7 +39,7 @@ public class OAuth2RefreshTokenController {
 
     @ApiOperation("分页检索刷新令牌列表")
     @ApiResponses(value = {@ApiResponse(code = SC_OK, message = "成功检索")})
-    @GetMapping("/api/oauth2-refresh-token/tokens")
+    @GetMapping("/api/oauth2-refresh-tokens")
     @Secured(Authority.ADMIN)
     public ResponseEntity<List<MongoOAuth2RefreshToken>> find(Pageable pageable,
                                                               @ApiParam(value = "刷新令牌ID") @RequestParam(value = "tokenId", required = false) String tokenId,
@@ -59,7 +59,7 @@ public class OAuth2RefreshTokenController {
     @ApiOperation("根据ID检索刷新令牌")
     @ApiResponses(value = {@ApiResponse(code = SC_OK, message = "成功检索"),
             @ApiResponse(code = SC_BAD_REQUEST, message = "刷新令牌不存在")})
-    @GetMapping("/api/oauth2-refresh-token/tokens/{id}")
+    @GetMapping("/api/oauth2-refresh-tokens/{id}")
     @Secured({Authority.ADMIN})
     public ResponseEntity<MongoOAuth2RefreshToken> findById(
             @ApiParam(value = "刷新令牌ID", required = true) @PathVariable String id) {
@@ -70,7 +70,7 @@ public class OAuth2RefreshTokenController {
     @ApiOperation(value = "根据ID删除刷新令牌", notes = "数据有可能被其他数据所引用，删除之后可能出现一些问题")
     @ApiResponses(value = {@ApiResponse(code = SC_OK, message = "成功删除"),
             @ApiResponse(code = SC_BAD_REQUEST, message = "刷新令牌不存在")})
-    @DeleteMapping("/api/oauth2-refresh-token/tokens/{id}")
+    @DeleteMapping("/api/oauth2-refresh-tokens/{id}")
     @Secured(Authority.ADMIN)
     public ResponseEntity<Void> delete(@ApiParam(value = "刷新令牌ID", required = true) @PathVariable String id) {
         log.debug("REST request to delete oauth2 access token: {}", id);

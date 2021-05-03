@@ -50,7 +50,7 @@
         <script th:src="@{/content/js/bootstrap/bootstrap.min.js}"></script>
         
         <script type="text/javascript">
-            $.get("open-api/profile-info", function(result){
+            $.get("open-api/system/profile-info", function(result){
                 if(result.ribbonEnv) {
                     $('div.ribbon').removeClass('hidden').find('a').text(result.ribbonEnv.toUpperCase());
                 }

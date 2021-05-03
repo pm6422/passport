@@ -452,7 +452,7 @@ function ProfileService($q, $http, $localStorage) {
 
     function getProfileInfo() {
         if (angular.isUndefined(dataPromise)) {
-            dataPromise = $http.get('open-api/profile-info').then(function (result) {
+            dataPromise = $http.get('open-api/system/profile-info').then(function (result) {
                 if (result.data.activeProfiles) {
                     return result.data;
                 }
@@ -687,51 +687,49 @@ function ConfigurationService($filter, $http, APP_NAME) {
 }
 
 function HttpSessionService($resource) {
-    var service = $resource('api/http-session/:extension/:id', {}, {
-        'query': {method: 'GET', isArray: true, params: {extension: 'sessions'}},
-        'del': {method: 'DELETE', params: {extension: 'sessions'}}
+    var service = $resource('api/http-sessions/:id', {}, {
+        'query': {method: 'GET', isArray: true},
+        'del': {method: 'DELETE'}
     });
     return service;
 }
 
 function DictService($resource) {
-    var service = $resource('api/dict/:extension/:id', {}, {
-        'query': {method: 'GET', isArray: true, params: {extension: 'dicts'}},
+    var service = $resource('api/dicts/:id', {}, {
+        'query': {method: 'GET', isArray: true},
         'get': {
             method: 'GET',
             transformResponse: function (data) {
                 data = angular.fromJson(data);
                 return data;
-            },
-            params: {extension: 'dicts'}
+            }
         },
-        'create': {method: 'POST', params: {extension: 'dicts'}},
-        'update': {method: 'PUT', params: {extension: 'dicts'}},
-        'del': {method: 'DELETE', params: {extension: 'dicts'}}
+        'create': {method: 'POST'},
+        'update': {method: 'PUT'},
+        'del': {method: 'DELETE'}
     });
     return service;
 }
 
 function DictItemService($resource) {
-    var service = $resource('api/dict-item/:extension/:id', {}, {
-        'query': {method: 'GET', isArray: true, params: {extension: 'items'}},
+    var service = $resource('api/dict-items/:id', {}, {
+        'query': {method: 'GET', isArray: true},
         'get': {
             method: 'GET',
             transformResponse: function (data) {
                 data = angular.fromJson(data);
                 return data;
-            },
-            params: {extension: 'items'}
+            }
         },
-        'create': {method: 'POST', params: {extension: 'items'}},
-        'update': {method: 'PUT', params: {extension: 'items'}},
-        'del': {method: 'DELETE', params: {extension: 'items'}}
+        'create': {method: 'POST'},
+        'update': {method: 'PUT'},
+        'del': {method: 'DELETE'}
     });
     return service;
 }
 
 function AuditsService($resource) {
-    var service = $resource('api/user-audit-event/user-audit-events/:id', {}, {
+    var service = $resource('api/user-audit-events/:id', {}, {
         'get': {method: 'GET', isArray: true},
         'query': {
             method: 'GET',
@@ -1134,25 +1132,26 @@ function AuthenticationService($rootScope, $state, $sessionStorage, $q, $locatio
  * AuthorityAdminMenuService
  */
 function AuthorityAdminMenuService($resource) {
-    return $resource('api/authority-admin-menu/:extension', {}, {
-        'query': {method: 'GET', isArray: true, params: {extension: 'user-authority-menus'}},
-        'queryLinks': {method: 'GET', isArray: true, params: {extension: 'user-authority-links'}},
-        'queryMenusByAuthorityName': {method: 'GET', isArray: true, params: {extension: 'authority-menus'}},
-        'updateAuthorityMenus': {
-            method: 'PUT', isArray: true, params: {extension: 'update-authority-menus'},
+    return $resource('api/authority-admin-menus/:extension', {}, {
+        'query': {method: 'GET', isArray: true},
+        'update': {
+            method: 'PUT',
+            isArray: true,
             interceptor: {
                 response: function (response) {
                     return response;
                 }
             }
-        }
+        },
+        'queryUserMenus': {method: 'GET', isArray: true, params: {extension: 'user-menus'}},
+        'queryUserLinks': {method: 'GET', isArray: true, params: {extension: 'user-links'}}
     });
 }
 /**
  * AppService
  */
 function AppService($resource) {
-    var service = $resource('api/app/apps/:extension', {}, {
+    var service = $resource('api/apps/:name', {}, {
         'query': {method: 'GET', isArray: true},
         'get': {
             method: 'GET',
@@ -1171,7 +1170,7 @@ function AppService($resource) {
  * AuthorityService
  */
 function AuthorityService($resource) {
-    var service = $resource('api/authority/authorities/:extension', {}, {
+    var service = $resource('api/authorities/:name', {}, {
         'query': {method: 'GET', isArray: true},
         'get': {
             method: 'GET',
@@ -1190,19 +1189,18 @@ function AuthorityService($resource) {
  * AppAuthorityService
  */
 function AppAuthorityService($resource) {
-    var service = $resource('api/app-authority/:extension/:id', {}, {
-        'query': {method: 'GET', isArray: true, params: {extension: 'app-authorities'}},
+    var service = $resource('api/app-authorities/:id', {}, {
+        'query': {method: 'GET', isArray: true},
         'get': {
             method: 'GET',
             transformResponse: function (data) {
                 data = angular.fromJson(data);
                 return data;
-            },
-            params: {extension: 'app-authorities'}
+            }
         },
-        'create': {method: 'POST', params: {extension: 'app-authorities'}},
-        'update': {method: 'PUT', params: {extension: 'app-authorities'}},
-        'del': {method: 'DELETE', params: {extension: 'app-authorities'}}
+        'create': {method: 'POST'},
+        'update': {method: 'PUT'},
+        'del': {method: 'DELETE'}
     });
     return service;
 }
@@ -1210,7 +1208,7 @@ function AppAuthorityService($resource) {
  * UserService
  */
 function UserService($resource) {
-    var service = $resource('api/user/users/:userName', {}, {
+    var service = $resource('api/users/:userName', {}, {
         'query': {method: 'GET', isArray: true},
         'get': {
             method: 'GET',
@@ -1231,7 +1229,7 @@ function UserService($resource) {
  * OAuth2ClientService
  */
 function OAuth2ClientService($resource) {
-    var service = $resource('api/oauth2-client/clients/:id', {}, {
+    var service = $resource('api/oauth2-clients/:id', {}, {
         'query': {method: 'GET', isArray: true},
         'get': {
             method: 'GET',
@@ -1251,7 +1249,7 @@ function OAuth2ClientService($resource) {
  * OAuth2AccessTokenService
  */
 function OAuth2AccessTokenService($resource) {
-    var service = $resource('api/oauth2-access-token/tokens/:id', {}, {
+    var service = $resource('api/oauth2-access-tokens/:id', {}, {
         'query': {method: 'GET', isArray: true},
         'get': {
             method: 'GET',
@@ -1269,7 +1267,7 @@ function OAuth2AccessTokenService($resource) {
  * OAuth2RefreshTokenService
  */
 function OAuth2RefreshTokenService($resource) {
-    var service = $resource('api/oauth2-refresh-token/tokens/:id', {}, {
+    var service = $resource('api/oauth2-refresh-tokens/:id', {}, {
         'query': {method: 'GET', isArray: true},
         'get': {
             method: 'GET',
@@ -1287,7 +1285,7 @@ function OAuth2RefreshTokenService($resource) {
  * OAuth2ApprovalService
  */
 function OAuth2ApprovalService($resource) {
-    var service = $resource('api/oauth2-approval/approvals/:id', {}, {
+    var service = $resource('api/oauth2-approvals/:id', {}, {
         'query': {method: 'GET', isArray: true},
         'get': {
             method: 'GET',
@@ -1317,8 +1315,8 @@ function AdminMenuService($resource) {
         'create': {method: 'POST'},
         'update': {method: 'PUT'},
         'del': {method: 'DELETE'},
-        'moveUp': {method: 'GET', params: {extension: 'move-up'}},
-        'moveDown': {method: 'GET', params: {extension: 'move-down'}}
+        'moveUp': {method: 'PUT', params: {extension: 'move-up', id: '@id'}},
+        'moveDown': {method: 'PUT', params: {extension: 'move-down', id: '@id'}}
     });
     return service;
 }

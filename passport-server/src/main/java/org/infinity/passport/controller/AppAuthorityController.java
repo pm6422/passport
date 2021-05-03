@@ -47,7 +47,7 @@ public class AppAuthorityController {
     @ApiOperation("创建应用权限")
     @ApiResponses(value = {@ApiResponse(code = SC_CREATED, message = "成功创建"),
             @ApiResponse(code = SC_BAD_REQUEST, message = "字典名已存在")})
-    @PostMapping("/api/app-authority/app-authorities")
+    @PostMapping("/api/app-authorities")
     @Secured({Authority.ADMIN})
     public ResponseEntity<Void> create(
             @ApiParam(value = "应用权限", required = true) @Valid @RequestBody AppAuthority domain) {
@@ -65,7 +65,7 @@ public class AppAuthorityController {
 
     @ApiOperation("分页检索应用权限列表")
     @ApiResponses(value = {@ApiResponse(code = SC_OK, message = "成功检索")})
-    @GetMapping("/api/app-authority/app-authorities")
+    @GetMapping("/api/app-authorities")
     @Secured({Authority.ADMIN})
     public ResponseEntity<List<AppAuthority>> find(Pageable pageable,
                                                    @ApiParam(value = "应用名称") @RequestParam(value = "appName", required = false) String appName,
@@ -78,7 +78,7 @@ public class AppAuthorityController {
     @ApiOperation("根据ID检索应用权限")
     @ApiResponses(value = {@ApiResponse(code = SC_OK, message = "成功检索"),
             @ApiResponse(code = SC_BAD_REQUEST, message = "应用权限不存在")})
-    @GetMapping("/api/app-authority/app-authorities/{id}")
+    @GetMapping("/api/app-authorities/{id}")
     @Secured({Authority.DEVELOPER, Authority.USER})
     public ResponseEntity<AppAuthority> findById(
             @ApiParam(value = "字典编号", required = true) @PathVariable String id) {
@@ -90,7 +90,7 @@ public class AppAuthorityController {
     @ApiOperation("更新应用权限")
     @ApiResponses(value = {@ApiResponse(code = SC_OK, message = "成功更新"),
             @ApiResponse(code = SC_BAD_REQUEST, message = "应用权限不存在")})
-    @PutMapping("/api/app-authority/app-authorities")
+    @PutMapping("/api/app-authorities")
     @Secured({Authority.ADMIN})
     public ResponseEntity<Void> update(
             @ApiParam(value = "新的应用权限", required = true) @Valid @RequestBody AppAuthority domain) {
@@ -103,7 +103,7 @@ public class AppAuthorityController {
     @ApiOperation(value = "根据ID删除应用权限", notes = "数据有可能被其他数据所引用，删除之后可能出现一些问题")
     @ApiResponses(value = {@ApiResponse(code = SC_OK, message = "成功删除"),
             @ApiResponse(code = SC_BAD_REQUEST, message = "应用权限不存在")})
-    @DeleteMapping("/api/app-authority/app-authorities/{id}")
+    @DeleteMapping("/api/app-authorities/{id}")
     @Secured({Authority.ADMIN})
     public ResponseEntity<Void> delete(@ApiParam(value = "字典编号", required = true) @PathVariable String id) {
         log.debug("REST request to delete app authority: {}", id);

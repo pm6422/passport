@@ -885,7 +885,7 @@ function stateConfig($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, Id
                     size: 'lg',
                     resolve: {
                         entity: ['AppService', function (AppService) {
-                            return AppService.get({extension: $stateParams.name}).$promise;
+                            return AppService.get({name: $stateParams.name}).$promise;
                         }]
                     }
                 }).result.then(function (result) {
@@ -909,7 +909,7 @@ function stateConfig($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, Id
             },
             resolve: {
                 entity: ['AppService', '$stateParams', function (AppService, $stateParams) {
-                    return AppService.get({extension: $stateParams.name}).$promise;
+                    return AppService.get({name: $stateParams.name}).$promise;
                 }]
             }
         })

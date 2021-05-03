@@ -69,7 +69,7 @@ public class UserController {
     @ApiOperation(value = "创建新用户并发送激活邮件")
     @ApiResponses(value = {@ApiResponse(code = SC_CREATED, message = "成功创建"),
             @ApiResponse(code = SC_BAD_REQUEST, message = "账号已注册")})
-    @PostMapping("/api/user/users")
+    @PostMapping("/api/users")
     @Secured({Authority.ADMIN})
     public ResponseEntity<Void> create(@ApiParam(value = "用户", required = true) @Valid @RequestBody User domain,
                                        HttpServletRequest request) {
@@ -82,7 +82,7 @@ public class UserController {
 
     @ApiOperation("分页检索用户列表")
     @ApiResponses(value = {@ApiResponse(code = SC_OK, message = "成功检索")})
-    @GetMapping("/api/user/users")
+    @GetMapping("/api/users")
     @Secured({Authority.ADMIN})
     public ResponseEntity<List<User>> find(Pageable pageable,
                                            @ApiParam(value = "检索条件") @RequestParam(value = "login", required = false) String login) {
@@ -93,7 +93,7 @@ public class UserController {
     @ApiOperation("根据用户名检索用户")
     @ApiResponses(value = {@ApiResponse(code = SC_OK, message = "成功检索"),
             @ApiResponse(code = SC_BAD_REQUEST, message = "用户不存在或账号无权限")})
-    @GetMapping("/api/user/users/{userName:[a-zA-Z0-9-]+}")
+    @GetMapping("/api/users/{userName:[a-zA-Z0-9-]+}")
     @Secured({Authority.ADMIN})
     public ResponseEntity<ManagedUserDTO> findByName(@ApiParam(value = "用户名", required = true) @PathVariable String userName) {
         User domain = userService.findOneByUserName(userName);
@@ -109,7 +109,7 @@ public class UserController {
             @ApiResponse(code = SC_BAD_REQUEST, message = "账号已注册"),
             @ApiResponse(code = SC_BAD_REQUEST, message = "用户不存在"),
             @ApiResponse(code = SC_BAD_REQUEST, message = "已激活用户无法变成未激活状态")})
-    @PutMapping("/api/user/users")
+    @PutMapping("/api/users")
     @Secured({Authority.ADMIN})
     public ResponseEntity<Void> update(@ApiParam(value = "新的用户", required = true) @Valid @RequestBody User domain) {
         log.debug("REST request to update user: {}", domain);
@@ -124,7 +124,7 @@ public class UserController {
     @ApiOperation(value = "根据用户名删除用户", notes = "数据有可能被其他数据所引用，删除之后可能出现一些问题")
     @ApiResponses(value = {@ApiResponse(code = SC_OK, message = "成功删除"),
             @ApiResponse(code = SC_BAD_REQUEST, message = "用户不存在")})
-    @DeleteMapping("/api/user/users/{userName:[a-zA-Z0-9-]+}")
+    @DeleteMapping("/api/users/{userName:[a-zA-Z0-9-]+}")
     @Secured({Authority.ADMIN})
     public ResponseEntity<Void> delete(@ApiParam(value = "用户名", required = true) @PathVariable String userName) {
         log.debug("REST request to delete user: {}", userName);
@@ -135,7 +135,7 @@ public class UserController {
     @ApiOperation("根据用户名重置密码")
     @ApiResponses(value = {@ApiResponse(code = SC_OK, message = "成功重置"),
             @ApiResponse(code = SC_BAD_REQUEST, message = "用户不存在或账号无权限")})
-    @PutMapping("/api/user/users/{userName:[a-zA-Z0-9-]+}")
+    @PutMapping("/api/users/{userName:[a-zA-Z0-9-]+}")
     @Secured({Authority.ADMIN})
     public ResponseEntity<String> resetPassword(@ApiParam(value = "用户名", required = true) @PathVariable String userName) {
         log.debug("REST reset the password of user: {}", userName);
@@ -144,7 +144,7 @@ public class UserController {
         return ResponseEntity.ok().headers(headers).body(DEFAULT_PASSWORD);
     }
 
-    public static final String GET_PROFILE_PHOTO_URL = "/api/user/profile-photo/";
+    public static final String GET_PROFILE_PHOTO_URL = "/api/users/profile-photo/";
 
     @ApiOperation("检索用户头像")
     @ApiResponses(value = {@ApiResponse(code = SC_OK, message = "成功检索")})

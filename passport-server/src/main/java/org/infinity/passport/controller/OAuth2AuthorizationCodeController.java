@@ -46,7 +46,7 @@ public class OAuth2AuthorizationCodeController {
      */
     @ApiOperation("分页检索授权码列表")
     @ApiResponses(value = {@ApiResponse(code = SC_OK, message = "成功检索")})
-    @GetMapping("/api/oauth2-authorization-code/codes")
+    @GetMapping("/api/oauth2-authorization-codes")
     @Secured(Authority.ADMIN)
     public ResponseEntity<List<MongoOAuth2AuthorizationCode>> find(Pageable pageable,
                                                                    @ApiParam(value = "授权码ID") @RequestParam(value = "authorizationCodeId", required = false) String authorizationCodeId,
@@ -62,7 +62,7 @@ public class OAuth2AuthorizationCodeController {
     @ApiOperation("根据ID检索授权码")
     @ApiResponses(value = {@ApiResponse(code = SC_OK, message = "成功检索"),
             @ApiResponse(code = SC_BAD_REQUEST, message = "授权码不存在")})
-    @GetMapping("/api/oauth2-authorization-code/codes/{id}")
+    @GetMapping("/api/oauth2-authorization-codes/{id}")
     @Secured({Authority.ADMIN})
     public ResponseEntity<MongoOAuth2AuthorizationCode> findById(
             @ApiParam(value = "授权码ID", required = true) @PathVariable String id) {
@@ -73,7 +73,7 @@ public class OAuth2AuthorizationCodeController {
     @ApiOperation(value = "根据ID删除授权码", notes = "数据有可能被其他数据所引用，删除之后可能出现一些问题")
     @ApiResponses(value = {@ApiResponse(code = SC_OK, message = "成功删除"),
             @ApiResponse(code = SC_BAD_REQUEST, message = "授权码不存在")})
-    @DeleteMapping("/api/oauth2-authorization-code/codes/{id}")
+    @DeleteMapping("/api/oauth2-authorization-codes/{id}")
     @Secured(Authority.ADMIN)
     public ResponseEntity<Void> delete(@ApiParam(value = "授权码ID", required = true) @PathVariable String id) {
         log.debug("REST request to delete oauth2 authorization code: {}", id);

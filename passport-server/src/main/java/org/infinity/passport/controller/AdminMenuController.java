@@ -127,7 +127,7 @@ public class AdminMenuController {
 
     @ApiOperation("根据ID提升管理菜单顺序")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "成功操作")})
-    @GetMapping("/api/admin-menus/move-up/{id}")
+    @PutMapping("/api/admin-menus/move-up/{id}")
     @Secured({Authority.ADMIN})
     public void moveUp(@ApiParam(value = "菜单ID", required = true) @PathVariable String id) {
         adminMenuService.moveUp(id);
@@ -135,7 +135,7 @@ public class AdminMenuController {
 
     @ApiOperation("根据ID降低管理菜单顺序")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "成功操作")})
-    @GetMapping("/api/admin-menus/move-down/{id}")
+    @PutMapping("/api/admin-menus/move-down/{id}")
     @Secured({Authority.ADMIN})
     public void moveDown(@ApiParam(value = "菜单ID", required = true) @PathVariable String id) {
         adminMenuService.moveDown(id);

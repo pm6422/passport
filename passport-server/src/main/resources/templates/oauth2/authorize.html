@@ -47,7 +47,7 @@
 
 <script type="text/javascript">
     <!-- Note: the front slash '/' cannot be deleted -->
-    $.get("/open-api/profile-info", function (result) {
+    $.get("/open-api/system/profile-info", function (result) {
         if (result.ribbonEnv) {
             $('div.ribbon').removeClass('hidden').find('a').text(result.ribbonEnv.toUpperCase());
         }

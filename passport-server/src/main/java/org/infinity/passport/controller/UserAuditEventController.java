@@ -43,7 +43,7 @@ public class UserAuditEventController {
      * @return 分页信息
      */
     @ApiOperation("分页检索用户审计事件列表")
-    @GetMapping("/api/user-audit-event/user-audit-events")
+    @GetMapping("/api/user-audit-events")
     @Secured(Authority.DEVELOPER)
     public ResponseEntity<List<PersistentAuditEvent>> getUserAuditEvents(Pageable pageable,
                                                                          @ApiParam(value = "开始日期，例：2020-10-01") @RequestParam(value = "from", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,

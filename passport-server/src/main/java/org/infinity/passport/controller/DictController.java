@@ -44,7 +44,7 @@ public class DictController {
     @ApiOperation("创建数据字典")
     @ApiResponses(value = {@ApiResponse(code = SC_CREATED, message = "成功创建"),
             @ApiResponse(code = SC_BAD_REQUEST, message = "字典名已存在")})
-    @PostMapping("/api/dict/dicts")
+    @PostMapping("/api/dicts")
     @Secured(Authority.DEVELOPER)
     public ResponseEntity<Void> create(@ApiParam(value = "数据字典", required = true) @Valid @RequestBody Dict domain) {
         log.debug("REST request to create dict: {}", domain);
@@ -58,7 +58,7 @@ public class DictController {
 
     @ApiOperation("分页检索数据字典列表")
     @ApiResponses(value = {@ApiResponse(code = SC_OK, message = "成功检索")})
-    @GetMapping("/api/dict/dicts")
+    @GetMapping("/api/dicts")
     @Secured(Authority.DEVELOPER)
     public ResponseEntity<List<Dict>> find(Pageable pageable,
                                            @ApiParam(value = "字典名称") @RequestParam(value = "dictName", required = false) String dictName,
@@ -71,7 +71,7 @@ public class DictController {
     @ApiOperation("根据ID检索数据字典")
     @ApiResponses(value = {@ApiResponse(code = SC_OK, message = "成功检索"),
             @ApiResponse(code = SC_BAD_REQUEST, message = "数据字典不存在")})
-    @GetMapping("/api/dict/dicts/{id}")
+    @GetMapping("/api/dicts/{id}")
     @Secured({Authority.DEVELOPER, Authority.USER})
     public ResponseEntity<Dict> findById(@ApiParam(value = "字典编号", required = true) @PathVariable String id) {
         Dict domain = dictRepository.findById(id).orElseThrow(() -> new NoDataFoundException(id));
@@ -81,7 +81,7 @@ public class DictController {
     @ApiOperation("更新数据字典")
     @ApiResponses(value = {@ApiResponse(code = SC_OK, message = "成功更新"),
             @ApiResponse(code = SC_BAD_REQUEST, message = "数据字典不存在")})
-    @PutMapping("/api/dict/dicts")
+    @PutMapping("/api/dicts")
     @Secured(Authority.DEVELOPER)
     public ResponseEntity<Void> update(@ApiParam(value = "新的数据字典", required = true) @Valid @RequestBody Dict domain) {
         log.debug("REST request to update dict: {}", domain);
@@ -93,7 +93,7 @@ public class DictController {
     @ApiOperation(value = "根据ID删除数据字典", notes = "数据有可能被其他数据所引用，删除之后可能出现一些问题")
     @ApiResponses(value = {@ApiResponse(code = SC_OK, message = "成功删除"),
             @ApiResponse(code = SC_BAD_REQUEST, message = "数据字典不存在")})
-    @DeleteMapping("/api/dict/dicts/{id}")
+    @DeleteMapping("/api/dicts/{id}")
     @Secured(Authority.DEVELOPER)
     public ResponseEntity<Void> delete(@ApiParam(value = "字典编号", required = true) @PathVariable String id) {
         log.debug("REST request to delete dict: {}", id);

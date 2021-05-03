@@ -48,29 +48,9 @@ public class AuthorityAdminMenuController {
         this.httpHeaderCreator = httpHeaderCreator;
     }
 
-    @ApiOperation("检索当前用户权限关联的菜单列表")
-    @ApiResponses(value = {@ApiResponse(code = SC_OK, message = "成功检索")})
-    @GetMapping("/api/authority-admin-menu/user-authority-links")
-    @Secured({Authority.USER})
-    public ResponseEntity<List<AdminMenu>> findUserAuthorityLinks(
-            @ApiParam(value = "应用名称", required = true) @RequestParam(value = "appName") String appName) {
-        List<AdminMenu> results = adminMenuService.getUserAuthorityLinks(appName);
-        return ResponseEntity.ok(results);
-    }
-
-    @ApiOperation("检索当前用户权限关联的菜单树")
-    @ApiResponses(value = {@ApiResponse(code = SC_OK, message = "成功检索")})
-    @GetMapping("/api/authority-admin-menu/user-authority-menus")
-    @Secured({Authority.USER})
-    public ResponseEntity<List<AdminMenuTreeDTO>> findUserAuthorityMenus(
-            @ApiParam(value = "应用名称", required = true) @RequestParam(value = "appName") String appName) {
-        List<AdminMenuTreeDTO> results = adminMenuService.getUserAuthorityMenus(appName);
-        return ResponseEntity.ok(results);
-    }
-
     @ApiOperation("根据权限名称检索菜单树")
     @ApiResponses(value = {@ApiResponse(code = SC_OK, message = "成功检索")})
-    @GetMapping("/api/authority-admin-menu/authority-menus")
+    @GetMapping("/api/authority-admin-menus")
     @Secured({Authority.ADMIN})
     public ResponseEntity<List<AdminMenuTreeDTO>> findAuthorityMenus(
             @ApiParam(value = "应用名称", required = true) @RequestParam(value = "appName") String appName,
@@ -81,7 +61,7 @@ public class AuthorityAdminMenuController {
 
     @ApiOperation("更新权限菜单")
     @ApiResponses(value = {@ApiResponse(code = SC_OK, message = "成功更新"), @ApiResponse(code = SC_BAD_REQUEST, message = "权限信息不存在")})
-    @PutMapping("/api/authority-admin-menu/update-authority-menus")
+    @PutMapping("/api/authority-admin-menus")
     @Secured({Authority.ADMIN})
     public ResponseEntity<Void> update(
             @ApiParam(value = "新的权限菜单信息", required = true) @Valid @RequestBody AdminAuthorityMenusDTO dto) {
@@ -101,5 +81,25 @@ public class AuthorityAdminMenuController {
             authorityAdminMenuRepository.saveAll(adminAuthorityMenus);
         }
         return ResponseEntity.ok().headers(httpHeaderCreator.createSuccessHeader("SM1012")).build();
+    }
+
+    @ApiOperation("检索当前用户权限关联的菜单列表")
+    @ApiResponses(value = {@ApiResponse(code = SC_OK, message = "成功检索")})
+    @GetMapping("/api/authority-admin-menus/user-links")
+    @Secured({Authority.USER})
+    public ResponseEntity<List<AdminMenu>> findUserAuthorityLinks(
+            @ApiParam(value = "应用名称", required = true) @RequestParam(value = "appName") String appName) {
+        List<AdminMenu> results = adminMenuService.getUserAuthorityLinks(appName);
+        return ResponseEntity.ok(results);
+    }
+
+    @ApiOperation("检索当前用户权限关联的菜单树")
+    @ApiResponses(value = {@ApiResponse(code = SC_OK, message = "成功检索")})
+    @GetMapping("/api/authority-admin-menus/user-menus")
+    @Secured({Authority.USER})
+    public ResponseEntity<List<AdminMenuTreeDTO>> findUserAuthorityMenus(
+            @ApiParam(value = "应用名称", required = true) @RequestParam(value = "appName") String appName) {
+        List<AdminMenuTreeDTO> results = adminMenuService.getUserAuthorityMenus(appName);
+        return ResponseEntity.ok(results);
     }
 }
