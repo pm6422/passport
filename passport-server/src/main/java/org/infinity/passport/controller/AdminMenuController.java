@@ -53,7 +53,7 @@ public class AdminMenuController {
 
     @ApiOperation("创建菜单")
     @ApiResponses(value = {@ApiResponse(code = SC_CREATED, message = "成功创建")})
-    @PostMapping("/api/admin-menu/menus")
+    @PostMapping("/api/admin-menus")
     @Secured({Authority.ADMIN})
     public ResponseEntity<Void> create(
             @ApiParam(value = "菜单", required = true) @Valid @RequestBody AdminMenu entity) {
@@ -70,7 +70,7 @@ public class AdminMenuController {
 
     @ApiOperation("分页检索菜单列表")
     @ApiResponses(value = {@ApiResponse(code = SC_OK, message = "成功检索")})
-    @GetMapping("/api/admin-menu/menus")
+    @GetMapping("/api/admin-menus")
     @Secured({Authority.ADMIN})
     public ResponseEntity<List<AdminMenu>> find(Pageable pageable,
                                                 @ApiParam(value = "应用名称") @RequestParam(value = "appName", required = false) String appName) {
@@ -82,28 +82,17 @@ public class AdminMenuController {
     @ApiOperation("根据ID检索菜单")
     @ApiResponses(value = {@ApiResponse(code = SC_OK, message = "成功检索"),
             @ApiResponse(code = SC_BAD_REQUEST, message = "菜单不存在")})
-    @GetMapping("/api/admin-menu/menus/{id}")
+    @GetMapping("/api/admin-menus/{id}")
     @Secured({Authority.ADMIN})
     public ResponseEntity<AdminMenu> findById(@ApiParam(value = "菜单ID", required = true) @PathVariable String id) {
         AdminMenu domain = adminMenuRepository.findById(id).orElseThrow(() -> new NoDataFoundException(id));
         return ResponseEntity.ok(domain);
     }
 
-    @ApiOperation("检索父类菜单")
-    @ApiResponses(value = {@ApiResponse(code = SC_OK, message = "成功检索")})
-    @GetMapping("/api/admin-menu/parent-menus/{appName}/{level:[0-9]+}")
-    @Secured({Authority.ADMIN})
-    public ResponseEntity<List<AdminMenu>> findAllParentMenu(
-            @ApiParam(value = "应用名称", required = true) @PathVariable String appName,
-            @ApiParam(value = "菜单级别", required = true) @PathVariable Integer level) {
-        List<AdminMenu> all = adminMenuRepository.findByAppNameAndLevel(appName, level);
-        return ResponseEntity.ok(all);
-    }
-
     @ApiOperation("更新菜单")
     @ApiResponses(value = {@ApiResponse(code = SC_OK, message = "成功更新"),
             @ApiResponse(code = SC_BAD_REQUEST, message = "菜单不存在")})
-    @PutMapping("/api/admin-menu/menus")
+    @PutMapping("/api/admin-menus")
     @Secured({Authority.ADMIN})
     public ResponseEntity<Void> update(
             @ApiParam(value = "新的菜单", required = true) @Valid @RequestBody AdminMenu domain) {
@@ -116,7 +105,7 @@ public class AdminMenuController {
     @ApiOperation("根据ID删除管理菜单")
     @ApiResponses(value = {@ApiResponse(code = SC_OK, message = "成功删除"),
             @ApiResponse(code = SC_BAD_REQUEST, message = "菜单不存在")})
-    @DeleteMapping("/api/admin-menu/menus/{id}")
+    @DeleteMapping("/api/admin-menus/{id}")
     @Secured({Authority.ADMIN})
     public ResponseEntity<Void> delete(@ApiParam(value = "菜单ID", required = true) @PathVariable String id) {
         log.debug("REST request to delete admin menu: {}", id);
@@ -125,25 +114,36 @@ public class AdminMenuController {
         return ResponseEntity.ok().headers(httpHeaderCreator.createSuccessHeader("SM1003", adminMenu.getName())).build();
     }
 
+    @ApiOperation("检索父类菜单")
+    @ApiResponses(value = {@ApiResponse(code = SC_OK, message = "成功检索")})
+    @GetMapping("/api/admin-menus/parents")
+    @Secured({Authority.ADMIN})
+    public ResponseEntity<List<AdminMenu>> findParents(
+            @ApiParam(value = "应用名称", required = true) @RequestParam(value = "appName") String appName,
+            @ApiParam(value = "菜单级别", required = true) @RequestParam(value = "level") Integer level) {
+        List<AdminMenu> all = adminMenuRepository.findByAppNameAndLevel(appName, level);
+        return ResponseEntity.ok(all);
+    }
+
     @ApiOperation("根据ID提升管理菜单顺序")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "成功操作")})
-    @GetMapping("/api/admin-menu/raise-seq/{id}")
+    @GetMapping("/api/admin-menus/move-up/{id}")
     @Secured({Authority.ADMIN})
-    public void raiseSeq(@ApiParam(value = "菜单ID", required = true) @PathVariable String id) {
-        adminMenuService.raiseSeq(id);
+    public void moveUp(@ApiParam(value = "菜单ID", required = true) @PathVariable String id) {
+        adminMenuService.moveUp(id);
     }
 
     @ApiOperation("根据ID降低管理菜单顺序")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "成功操作")})
-    @GetMapping("/api/admin-menu/lower-seq/{id}")
+    @GetMapping("/api/admin-menus/move-down/{id}")
     @Secured({Authority.ADMIN})
-    public void lowerSeq(@ApiParam(value = "菜单ID", required = true) @PathVariable String id) {
-        adminMenuService.lowerSeq(id);
+    public void moveDown(@ApiParam(value = "菜单ID", required = true) @PathVariable String id) {
+        adminMenuService.moveDown(id);
     }
 
     @ApiOperation("复制管理菜单")
     @ApiResponses(value = {@ApiResponse(code = SC_OK, message = "成功复制")})
-    @GetMapping("/api/admin-menu/copy-menus")
+    @GetMapping("/api/admin-menus/copy")
     @Secured({Authority.ADMIN})
     public void copyMenus(@ApiParam(value = "源应用名称", required = true, defaultValue = "DeepBrainPassport") @RequestParam(value = "sourceAppName") String sourceAppName,
                           @ApiParam(value = "目标应用名称", required = true) @RequestParam(value = "targetAppName") String targetAppName) {
@@ -157,7 +157,7 @@ public class AdminMenuController {
 
     @ApiOperation(value = "导入管理菜单", notes = "输入文件格式：每行先后appName,name,label,level,url,sequence数列，列之间使用tab分隔，行之间使用回车换行")
     @ApiResponses(value = {@ApiResponse(code = SC_OK, message = "成功导入")})
-    @PostMapping(value = "/api/admin-menu/menus/import", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/api/admin-menus/import", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @Secured({Authority.ADMIN})
     public void importData(@ApiParam(value = "文件", required = true) @RequestPart MultipartFile file) throws IOException {
         List<String> lines = IOUtils.readLines(file.getInputStream(), StandardCharsets.UTF_8);

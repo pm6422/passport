@@ -973,7 +973,7 @@ function PrincipalService($q, $http, AccountService, TrackerService) {
 /**
  * AuthServerService
  */
-function AuthServerService($http, $localStorage, Base64Utils, APP_NAME) {
+function AuthServerService($http, $localStorage) {
     return {
         getToken: getToken,
         getAccessToken: getAccessToken,
@@ -1303,23 +1303,22 @@ function OAuth2ApprovalService($resource) {
 /**
  * AdminMenuService
  */
-function AdminMenuService($resource, APP_NAME) {
-    var service = $resource('api/admin-menu/:extension/:app/:id', {}, {
-        'query': {method: 'GET', isArray: true, params: {extension: 'menus'}},
-        'queryParentMenu': {method: 'GET', isArray: true, params: {extension: 'parent-menus', id: 1}},
+function AdminMenuService($resource) {
+    var service = $resource('api/admin-menus/:extension/:id', {}, {
+        'query': {method: 'GET', isArray: true},
+        'queryParents': {method: 'GET', isArray: true, params: {extension: 'parents'}},
         'get': {
             method: 'GET',
             transformResponse: function (data) {
                 data = angular.fromJson(data);
                 return data;
-            },
-            params: {extension: 'menus'}
+            }
         },
-        'create': {method: 'POST', params: {extension: 'menus'}},
-        'update': {method: 'PUT', params: {extension: 'menus'}},
-        'del': {method: 'DELETE', params: {extension: 'menus'}},
-        'raiseSeq': {method: 'GET', params: {extension: 'raise-seq'}},
-        'lowerSeq': {method: 'GET', params: {extension: 'lower-seq'}}
+        'create': {method: 'POST'},
+        'update': {method: 'PUT'},
+        'del': {method: 'DELETE'},
+        'moveUp': {method: 'GET', params: {extension: 'move-up'}},
+        'moveDown': {method: 'GET', params: {extension: 'move-down'}}
     });
     return service;
 }

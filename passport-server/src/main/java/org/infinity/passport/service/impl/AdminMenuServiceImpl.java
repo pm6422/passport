@@ -122,7 +122,7 @@ public class AdminMenuServiceImpl implements AdminMenuService {
     }
 
     @Override
-    public void raiseSeq(String id) {
+    public void moveUp(String id) {
         this.adjustSeq(id, -1, this::isNotHead);
     }
 
@@ -131,7 +131,7 @@ public class AdminMenuServiceImpl implements AdminMenuService {
     }
 
     @Override
-    public void lowerSeq(String id) {
+    public void moveDown(String id) {
         this.adjustSeq(id, 1, this::isNotTail);
     }
 
@@ -153,9 +153,9 @@ public class AdminMenuServiceImpl implements AdminMenuService {
             linkedList.add(currentIndex + moveIndex, current);
         }
 
-        // Re-set the sequence
+        // Re-order the sequences
         for (int i = 0; i < linkedList.size(); i++) {
-            linkedList.get(i).setSequence(i);
+            linkedList.get(i).setSequence(i + 1);
         }
         adminMenuRepository.saveAll(linkedList);
     }

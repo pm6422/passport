@@ -17,7 +17,7 @@ public interface AdminMenuService {
 
     List<AdminMenuTreeDTO> getAuthorityMenus(String appName, String authorityName);
 
-    void raiseSeq(String id);
+    void moveUp(String id);
 
-    void lowerSeq(String id);
+    void moveDown(String id);
 }

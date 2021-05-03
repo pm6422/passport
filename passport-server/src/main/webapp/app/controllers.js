@@ -1890,8 +1890,8 @@ function AdminMenuListController($state, AlertUtils, ParseLinksUtils, PAGINATION
     vm.transition = transition;
     vm.criteria = criteria;
     vm.del = del;
-    vm.raiseSeq = raiseSeq;
-    vm.lowerSeq = lowerSeq;
+    vm.moveUp = moveUp;
+    vm.moveDown = moveDown;
 
     vm.loadAll();
 
@@ -1951,15 +1951,15 @@ function AdminMenuListController($state, AlertUtils, ParseLinksUtils, PAGINATION
         });
     }
 
-    function raiseSeq(id) {
-        AdminMenuService.raiseSeq({id: id},
+    function moveUp(id) {
+        AdminMenuService.moveUp({id: id},
             function () {
                 vm.loadAll()
             });
     }
 
-    function lowerSeq(id) {
-        AdminMenuService.lowerSeq({id: id},
+    function moveDown(id) {
+        AdminMenuService.moveDown({id: id},
             function () {
                 vm.loadAll()
             });
@@ -1998,7 +1998,7 @@ function AdminMenuDialogController($state, $stateParams, $uibModalInstance, Admi
 
     function searchParentMenus() {
         if (vm.entity && vm.entity.appName) {
-            vm.parentMenus = AdminMenuService.queryParentMenu({app: vm.entity.appName});
+            vm.parentMenus = AdminMenuService.queryParents({appName: vm.entity.appName, level: 1});
         }
         else {
             vm.parentMenus = [];
