@@ -1,21 +1,13 @@
 package org.infinity.passport.controller;
 
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.util.Set;
-import java.util.UUID;
 import java.util.concurrent.ConcurrentSkipListSet;
 
 @RestController
@@ -47,24 +39,5 @@ public class PerformanceTestController {
         }
 
 //        Thread.sleep(1000);// 模拟程序执行了一段时间
-    }
-
-    @ApiOperation(value = "测试Request对象线程安全", notes = "1万以下不要用parallel")
-    @GetMapping("/api/performance/req-thread-safe-iteration")
-    public void testReqThreadSafeIteration(@ApiParam(value = "样本数量", required = true, defaultValue = "1000") @RequestParam(value = "sampleCount") Integer sampleCount) {
-        String prefix = UUID.randomUUID().toString().replaceAll("-", "") + "::";
-        for (int i = 0; i < sampleCount; i++) {
-            final String value = prefix + i;
-            new Thread(() -> {
-                try {
-                    CloseableHttpClient httpClient = HttpClients.createDefault();
-                    HttpGet httpGet = new HttpGet("http://localhost:" + env.getProperty("server.port") + "/open-api/performance/req-thread-safe?key=" + value);
-                    httpClient.execute(httpGet);
-                    httpClient.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }).start();
-        }
     }
 }
