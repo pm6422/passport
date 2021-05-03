@@ -89,7 +89,7 @@ spring:
             collection-name: HttpSession
     mail: # specific mail property, used by MailProperties
         host: smtp.exmail.qq.com
-        username: admin@pm6422.org
+        username: louis@pm6422.club
         password: LoU-UHR-9dH-8G9-F3G
     banner:
         location: classpath:config/banner-company.txt
