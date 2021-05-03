@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.infinity.passport.domain.base.AbstractAuditableDomain;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotNull;
@@ -27,6 +28,7 @@ public class DictItem extends AbstractAuditableDomain implements Serializable {
 
     @ApiModelProperty(value = "字典编号", required = true)
     @NotNull
+    @Indexed
     private String dictCode;
 
     @ApiModelProperty(value = "字典名称", required = true)
@@ -36,6 +38,7 @@ public class DictItem extends AbstractAuditableDomain implements Serializable {
     @NotNull
     @Size(min = 2, max = 50)
     @Pattern(regexp = "^[a-z0-9-]+$", message = "{EP5901}")
+    @Indexed
     private String dictItemCode;
 
     @ApiModelProperty(value = "字典项名称", required = true)
