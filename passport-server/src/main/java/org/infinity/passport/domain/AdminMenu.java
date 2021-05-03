@@ -38,6 +38,7 @@ public class AdminMenu extends AbstractAuditableDomain implements Serializable {
     @NotNull
     @Size(min = 1, max = 30)
     @Pattern(regexp = "^[a-z0-9-]+$", message = "{EP5901}")
+    @Indexed(unique = true)
     private String name;
 
     @ApiModelProperty(value = "菜单显示文本", required = true)
