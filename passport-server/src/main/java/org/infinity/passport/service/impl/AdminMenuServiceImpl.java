@@ -40,7 +40,9 @@ public class AdminMenuServiceImpl implements AdminMenuService {
     public Page<AdminMenu> find(Pageable pageable, String appName) {
         // Ignore query parameter if it has a null value
         ExampleMatcher matcher = ExampleMatcher.matching().withIgnoreNullValues();
-        Example<AdminMenu> queryExample = Example.of(new AdminMenu(appName), matcher);
+        AdminMenu adminMenu = new AdminMenu();
+        adminMenu.setAppName(appName);
+        Example<AdminMenu> queryExample = Example.of(adminMenu, matcher);
         return adminMenuRepository.findAll(queryExample, pageable);
     }
 

@@ -38,7 +38,7 @@ public class AdminMenu extends AbstractAuditableDomain implements Serializable {
     @NotNull
     @Size(min = 1, max = 30)
     @Pattern(regexp = "^[a-z0-9-]+$", message = "{EP5901}")
-    @Indexed(unique = true)
+    @Indexed
     private String name;
 
     @ApiModelProperty(value = "菜单显示文本", required = true)
@@ -67,10 +67,6 @@ public class AdminMenu extends AbstractAuditableDomain implements Serializable {
     @ApiModelProperty("是否选中")
     @Transient
     private Boolean checked;
-
-    public AdminMenu(String appName) {
-        this.appName = appName;
-    }
 
     public AdminMenu(String appName, String name, String label, Integer level, String url,
                      Integer sequence, String parentId) {
