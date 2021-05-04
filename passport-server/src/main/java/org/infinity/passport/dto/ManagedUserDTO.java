@@ -3,6 +3,7 @@ package org.infinity.passport.dto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.infinity.passport.domain.User;
 import org.springframework.beans.BeanUtils;
@@ -16,6 +17,7 @@ import java.util.Set;
  */
 @ApiModel("用户扩展DTO")
 @Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 public class ManagedUserDTO extends User {
 
