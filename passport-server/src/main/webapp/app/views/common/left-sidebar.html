@@ -27,12 +27,12 @@
             <li ng-class="{active: $state.includes('{{group.url}}')}" ng-repeat="group in vm.groups">
                 <a href="#">
                     <i class="fa fa-th-large"></i>
-                    <span class="nav-label">{{group.label}}</span>
+                    <span class="nav-label">{{group.name}}</span>
                     <span class="fa arrow"></span>
                 </a>
                 <ul class="nav nav-second-level collapse" ng-class="{in: $state.includes('{{group.url}}')}">
                     <li ui-sref-active="active" ng-repeat="child in group.children">
-                        <a ui-sref="{{child.url}}">{{child.label}}</a>
+                        <a ui-sref="{{child.url}}">{{child.name}}</a>
                     </li>
                 </ul>
             </li>
