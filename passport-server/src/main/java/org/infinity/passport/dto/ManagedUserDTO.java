@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.infinity.passport.domain.User;
+import org.infinity.passport.domain.base.BaseUser;
 import org.springframework.beans.BeanUtils;
 
 import javax.validation.constraints.NotNull;
@@ -19,13 +20,11 @@ import java.util.Set;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-public class ManagedUserDTO extends User {
+public class ManagedUserDTO extends BaseUser {
 
-    private static final long serialVersionUID = -8095593058946091229L;
-
-    public static final int RAW_PASSWORD_MIN_LENGTH = 5;
-
-    public static final int RAW_PASSWORD_MAX_LENGTH = 50;
+    private static final long serialVersionUID        = -8095593058946091229L;
+    public static final  int  RAW_PASSWORD_MIN_LENGTH = 5;
+    public static final  int  RAW_PASSWORD_MAX_LENGTH = 50;
 
     @ApiModelProperty(value = "密码", required = true)
     @NotNull

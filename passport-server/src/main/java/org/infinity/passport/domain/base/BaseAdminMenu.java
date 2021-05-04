@@ -18,6 +18,7 @@ import java.io.Serializable;
 @ToString(callSuper = true)
 @NoArgsConstructor
 public abstract class BaseAdminMenu extends AbstractAuditableDomain implements Serializable {
+
     private static final long   serialVersionUID = -4843853988665463514L;
     public static final  String FIELD_LEVEL      = "level";
     public static final  String FIELD_SEQUENCE   = "sequence";
