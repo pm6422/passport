@@ -33,7 +33,6 @@ public class User extends AbstractAuditableDomain implements Serializable {
 
     public static final String DEFAULT_PASSWORD = "123456";
 
-
     public static final String FIELD_USER_NAME = "userName";
 
     public static final String FIELD_EMAIL = "email";
