@@ -17,8 +17,24 @@
             </div>
         </div>
         <div class="form-group">
+            <label class="control-label">菜单代码</label>
+            <input type="text" class="form-control" name="code" ng-model="vm.entity.code"
+                   required ng-minlength="1" ng-maxlength="30">
+            <div ng-show="editForm.code.$invalid">
+                <p class="help-block" ng-show="editForm.code.$error.required">
+                    必填字段
+                </p>
+                <p class="help-block" ng-show="editForm.code.$error.minlength">
+                    最小长度为1个字符
+                </p>
+                <p class="help-block" ng-show="editForm.code.$error.maxlength">
+                    最大长度为30个字符
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
             <label class="control-label">菜单名称</label>
-            <input type="text" class="form-control" name="name" ng-model="vm.entity.name"
+            <input type="text" class="form-control" name="label" ng-model="vm.entity.name"
                    required ng-minlength="1" ng-maxlength="30">
             <div ng-show="editForm.name.$invalid">
                 <p class="help-block" ng-show="editForm.name.$error.required">
@@ -33,25 +49,9 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label">菜单显示文本</label>
-            <input type="text" class="form-control" name="label" ng-model="vm.entity.label"
-                   required ng-minlength="1" ng-maxlength="30">
-            <div ng-show="editForm.label.$invalid">
-                <p class="help-block" ng-show="editForm.label.$error.required">
-                    必填字段
-                </p>
-                <p class="help-block" ng-show="editForm.label.$error.minlength">
-                    最小长度为1个字符
-                </p>
-                <p class="help-block" ng-show="editForm.label.$error.maxlength">
-                    最大长度为30个字符
-                </p>
-            </div>
-        </div>
-        <div class="form-group">
             <label class="control-label">父菜单</label>
             <select class="form-control" ng-model="vm.entity.parentId" name="parentId"
-                    ng-options="item.id as item.label for item in vm.parentMenus"
+                    ng-options="item.id as item.name for item in vm.parentMenus"
                     ng-disabled="vm.entity.appName == null">
                 <option value="">请选择...</option>
             </select>
