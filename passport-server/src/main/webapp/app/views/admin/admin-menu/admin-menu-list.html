@@ -38,8 +38,8 @@
                         <tr sort-directive="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
                             <th sort-by-directive="id"><span>菜单ID</span> <span class="fa fa-sort"></span></th>
                             <th sort-by-directive="appName"><span>应用</span> <span class="fa fa-sort"></span></th>
+                            <th sort-by-directive="code"><span>菜单代码</span> <span class="fa fa-sort"></span></th>
                             <th sort-by-directive="name"><span>菜单名称</span> <span class="fa fa-sort"></span></th>
-                            <th sort-by-directive="label"><span>菜单中文文本</span> <span class="fa fa-sort"></span></th>
                             <th sort-by-directive="level"><span>级别</span> <span class="fa fa-sort"></span></th>
                             <th sort-by-directive="url"><span>地址</span> <span class="fa fa-sort"></span></th>
                             <th sort-by-directive="sequence"><span>序号</span> <span class="fa fa-sort"></span></th>
@@ -50,8 +50,8 @@
                         <tr ng-repeat="entity in vm.entities track by entity.id">
                             <td>{{entity.id}}</td>
                             <td>{{entity.appName}}</td>
+                            <td>{{entity.code}}</td>
                             <td>{{entity.name}}</td>
-                            <td>{{entity.label}}</td>
                             <td>{{entity.level}}</td>
                             <td>{{entity.url}}</td>
                             <td>{{entity.sequence}}</td>
