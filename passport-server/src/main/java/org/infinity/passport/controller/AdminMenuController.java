@@ -64,7 +64,7 @@ public class AdminMenuController {
                 });
         adminMenuRepository.insert(entity);
         return ResponseEntity.status(HttpStatus.CREATED).headers(
-                httpHeaderCreator.createSuccessHeader("SM1001", entity.getName()))
+                httpHeaderCreator.createSuccessHeader("SM1001", entity.getCode()))
                 .build();
     }
 
@@ -99,7 +99,7 @@ public class AdminMenuController {
         log.debug("REST request to update admin menu: {}", domain);
         adminMenuRepository.findById(domain.getId()).orElseThrow(() -> new NoDataFoundException(domain.getId()));
         adminMenuRepository.save(domain);
-        return ResponseEntity.ok().headers(httpHeaderCreator.createSuccessHeader("SM1002", domain.getName())).build();
+        return ResponseEntity.ok().headers(httpHeaderCreator.createSuccessHeader("SM1002", domain.getCode())).build();
     }
 
     @ApiOperation("根据ID删除管理菜单")
@@ -111,7 +111,7 @@ public class AdminMenuController {
         log.debug("REST request to delete admin menu: {}", id);
         AdminMenu adminMenu = adminMenuRepository.findById(id).orElseThrow(() -> new NoDataFoundException(id));
         adminMenuRepository.deleteById(id);
-        return ResponseEntity.ok().headers(httpHeaderCreator.createSuccessHeader("SM1003", adminMenu.getName())).build();
+        return ResponseEntity.ok().headers(httpHeaderCreator.createSuccessHeader("SM1003", adminMenu.getCode())).build();
     }
 
     @ApiOperation("检索父类菜单")

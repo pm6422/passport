@@ -29,29 +29,29 @@ public abstract class BaseAdminMenu extends AbstractAuditableDomain implements S
     @Indexed
     private String appName;
 
-    @ApiModelProperty(value = "菜单名称", required = true)
+    @ApiModelProperty(value = "代码", required = true)
     @NotNull
     @Size(min = 1, max = 30)
     @Pattern(regexp = "^[a-z0-9-]+$", message = "{EP5901}")
     @Indexed(unique = true)
-    private String name;
+    private String code;
 
-    @ApiModelProperty(value = "菜单显示文本", required = true)
+    @ApiModelProperty(value = "名称", required = true)
     @NotNull
     @Size(min = 1, max = 30)
-    private String label;
+    private String name;
 
-    @ApiModelProperty(value = "菜单层级", required = true)
+    @ApiModelProperty(value = "层级", required = true)
     @Min(1)
     @Max(9)
     private Integer level;
 
-    @ApiModelProperty(value = "菜单链接地址", required = true)
+    @ApiModelProperty(value = "链接地址", required = true)
     @NotNull
     @Size(min = 3, max = 200)
     private String url;
 
-    @ApiModelProperty(value = "菜单排序序号", required = true)
+    @ApiModelProperty(value = "排序序号", required = true)
     @Min(1)
     @Max(999)
     private Integer sequence;
@@ -63,12 +63,12 @@ public abstract class BaseAdminMenu extends AbstractAuditableDomain implements S
     @Transient
     private Boolean checked;
 
-    public BaseAdminMenu(String appName, String name, String label, Integer level, String url,
+    public BaseAdminMenu(String appName, String code, String name, Integer level, String url,
                          Integer sequence, String parentId) {
         super();
         this.appName = appName;
+        this.code = code;
         this.name = name;
-        this.label = label;
         this.level = level;
         this.url = url;
         this.sequence = sequence;
