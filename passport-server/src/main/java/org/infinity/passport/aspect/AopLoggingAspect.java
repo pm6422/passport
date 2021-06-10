@@ -1,10 +1,11 @@
-package org.infinity.passport.config;
+package org.infinity.passport.aspect;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.infinity.passport.config.ApplicationProperties;
 import org.infinity.passport.utils.TraceIdUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Configuration;
