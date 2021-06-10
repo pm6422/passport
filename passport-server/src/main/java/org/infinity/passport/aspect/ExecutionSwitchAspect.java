@@ -7,6 +7,8 @@ import org.infinity.passport.annotation.ExecutionSwitch;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
+import javax.annotation.Resource;
+
 /**
  * Pointcut configuration
  */
@@ -14,11 +16,8 @@ import org.springframework.core.env.Environment;
 @Configuration
 public class ExecutionSwitchAspect {
 
-    private final Environment env;
-
-    public ExecutionSwitchAspect(Environment env) {
-        this.env = env;
-    }
+    @Resource
+    private Environment env;
 
     @Around("@annotation(annotation)")
     public Object switchAround(ProceedingJoinPoint joinPoint, ExecutionSwitch annotation) throws Throwable {
