@@ -12,7 +12,7 @@ import javax.annotation.Resource;
 /**
  * Pointcut configuration
  * <p>
- * Some reference:
+ * Some references:
  * https://stackoverflow.com/questions/13564627/spring-aop-not-working-for-method-call-inside-another-method
  */
 @Aspect
