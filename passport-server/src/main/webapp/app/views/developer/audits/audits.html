@@ -4,7 +4,7 @@
     </div>
 </div>
 <div class="wrapper wrapper-content p-h-xs animated fadeInDown">
-    <div class="ibox-content m-b-sm border-bottom">
+    <div class="ibox-content m-b-sm">
         <div class="row">
             <div class="col-md-2">
                 <div class="form-group">
@@ -20,34 +20,30 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="ibox">
-                <div class="ibox-content">
-                    <table class="table table-condensed table-striped table-bordered table-responsive">
-                        <thead>
-                        <tr sort-directive="vm.predicate" ascending="vm.reverse" callback="vm.loadAll()">
-                            <th sort-by-directive="auditEventDate"><span>Event Time</span><span class="fa fa-sort"></span></th>
-                            <th sort-by-directive="principal"><span>User</span><span class="fa fa-sort"></span></th>
-                            <th sort-by-directive="auditEventType"><span>Event Type</span><span class="fa fa-sort"></span></th>
-                            <th><span>Extra data</span></th>
-                        </tr>
-                        </thead>
-                        <tr ng-repeat="entity in vm.entities | filter:filter | orderBy:predicate:reverse" ng-hide="entity.filtered">
-                            <td><span>{{entity.auditEventDate| date:'yyyy/MM/dd HH:mm:ss'}}</span></td>
-                            <td><small>{{entity.principal}}</small></td>
-                            <td>{{entity.auditEventType}}</td>
-                            <td>
-                                <span ng-show="entity.data.message">{{entity.data.message}}</span>
-                                <span ng-show="entity.data.remoteAddress"><span>Remote Address</span> {{entity.data.remoteAddress}}</span>
-                            </td>
-                        </tr>
-                    </table>
-                    <div class="text-center">
-                        <uib-pagination class="pagination-sm" items-per-page="vm.itemsPerPage" total-items="vm.totalItems" ng-model="vm.page" ng-change="vm.loadAll()"></uib-pagination>
-                    </div>
-                </div>
-           </div>
+    <div class="ibox">
+        <div class="ibox-content">
+            <table class="table table-condensed table-striped table-bordered table-responsive">
+                <thead>
+                <tr sort-directive="vm.predicate" ascending="vm.reverse" callback="vm.loadAll()">
+                    <th sort-by-directive="auditEventDate"><span>Event Time</span><span class="fa fa-sort"></span></th>
+                    <th sort-by-directive="principal"><span>User</span><span class="fa fa-sort"></span></th>
+                    <th sort-by-directive="auditEventType"><span>Event Type</span><span class="fa fa-sort"></span></th>
+                    <th><span>Extra data</span></th>
+                </tr>
+                </thead>
+                <tr ng-repeat="entity in vm.entities | filter:filter | orderBy:predicate:reverse" ng-hide="entity.filtered">
+                    <td><span>{{entity.auditEventDate| date:'yyyy/MM/dd HH:mm:ss'}}</span></td>
+                    <td><small>{{entity.principal}}</small></td>
+                    <td>{{entity.auditEventType}}</td>
+                    <td>
+                        <span ng-show="entity.data.message">{{entity.data.message}}</span>
+                        <span ng-show="entity.data.remoteAddress"><span>Remote Address</span> {{entity.data.remoteAddress}}</span>
+                    </td>
+                </tr>
+            </table>
+            <div class="text-center">
+                <uib-pagination class="pagination-sm" items-per-page="vm.itemsPerPage" total-items="vm.totalItems" ng-model="vm.page" ng-change="vm.loadAll()"></uib-pagination>
+            </div>
         </div>
     </div>
 </div>
