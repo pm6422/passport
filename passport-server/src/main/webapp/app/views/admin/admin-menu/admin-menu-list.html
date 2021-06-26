@@ -15,75 +15,66 @@
     </div>
 </div>
 <div class="wrapper wrapper-content p-h-xs animated fadeInDown">
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="ibox">
-                <div class="ibox-title">
-                    <h5></h5>
-                    <div ibox-tools-directive></div>
-                </div>
-                <div class="ibox-content p-w-m">
-                    <div class="row p-h-xs">
-                        <div class="col-sm-12">
-                            <div class="form-group">
-                                <label class="control-label">应用</label>
-                                <select class="form-control" ng-model="vm.criteria.app" ng-options="item.name as item.name for item in vm.apps" ng-change="vm.transition()">
-                                    <option value="">请选择...</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <table class="table table-striped">
-                        <thead>
-                        <tr sort-directive="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
-                            <th sort-by-directive="id"><span>菜单ID</span> <span class="fa fa-sort"></span></th>
-                            <th sort-by-directive="appName"><span>应用</span> <span class="fa fa-sort"></span></th>
-                            <th sort-by-directive="code"><span>菜单代码</span> <span class="fa fa-sort"></span></th>
-                            <th sort-by-directive="name"><span>菜单名称</span> <span class="fa fa-sort"></span></th>
-                            <th sort-by-directive="level"><span>级别</span> <span class="fa fa-sort"></span></th>
-                            <th sort-by-directive="url"><span>菜单地址</span> <span class="fa fa-sort"></span></th>
-                            <th sort-by-directive="sequence"><span>序号</span> <span class="fa fa-sort"></span></th>
-                            <th>操作</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr ng-repeat="entity in vm.entities track by entity.id">
-                            <td>{{entity.id}}</td>
-                            <td>{{entity.appName}}</td>
-                            <td>{{entity.code}}</td>
-                            <td>{{entity.name}}</td>
-                            <td>{{entity.level}}</td>
-                            <td>{{entity.url}}</td>
-                            <td>{{entity.sequence}}</td>
-                            <td>
-                                <div class="btn-group">
-                                    <button class="btn-white btn btn-xs" ui-sref=".edit({id: entity.id})">编辑</button>
-                                    <button class="btn-white btn btn-xs" ng-click="vm.del(entity.id)">删除</button>
-                                    <button class="btn-white btn btn-xs" ng-click="vm.moveUp(entity.id)">提升序号
-                                    </button>
-                                    <button class="btn-white btn btn-xs" ng-click="vm.moveDown(entity.id)">降低序号
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        </tbody>
-                        <tfoot>
-                        <tr>
-                            <td colspan="12" class="text-center">
-                                <strong>
-                                    <item-count-component page="vm.page" total="vm.totalItems"
-                                                          items-per-page="vm.itemsPerPage">
-                                    </item-count-component>
-                                </strong>
-                                <uib-pagination class="pagination-sm m-xs" total-items="vm.totalItems"
-                                                ng-model="vm.page" ng-change="vm.transition()">
-                                </uib-pagination>
-                            </td>
-                        </tr>
-                        </tfoot>
-                    </table>
+    <div class="ibox-content m-b-sm">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label class="control-label">应用</label>
+                    <select class="form-control" ng-model="vm.criteria.app" ng-options="item.name as item.name for item in vm.apps" ng-change="vm.transition()">
+                        <option value="">请选择...</option>
+                    </select>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="ibox">
+        <div class="ibox-title">
+            <div ibox-tools-directive></div>
+        </div>
+        <div class="ibox-content p-w-m">
+            <table class="table table-striped">
+                <thead>
+                <tr sort-directive="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
+                    <th sort-by-directive="id"><span>菜单ID</span> <span class="fa fa-sort"></span></th>
+                    <th sort-by-directive="appName"><span>应用</span> <span class="fa fa-sort"></span></th>
+                    <th sort-by-directive="code"><span>菜单代码</span> <span class="fa fa-sort"></span></th>
+                    <th sort-by-directive="name"><span>菜单名称</span> <span class="fa fa-sort"></span></th>
+                    <th sort-by-directive="level"><span>级别</span> <span class="fa fa-sort"></span></th>
+                    <th sort-by-directive="url"><span>菜单地址</span> <span class="fa fa-sort"></span></th>
+                    <th sort-by-directive="sequence"><span>序号</span> <span class="fa fa-sort"></span></th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="entity in vm.entities track by entity.id">
+                    <td>{{entity.id}}</td>
+                    <td>{{entity.appName}}</td>
+                    <td>{{entity.code}}</td>
+                    <td>{{entity.name}}</td>
+                    <td>{{entity.level}}</td>
+                    <td>{{entity.url}}</td>
+                    <td>{{entity.sequence}}</td>
+                    <td>
+                        <div class="btn-group">
+                            <button class="btn-white btn btn-xs" ui-sref=".edit({id: entity.id})">编辑</button>
+                            <button class="btn-white btn btn-xs" ng-click="vm.del(entity.id)">删除</button>
+                            <button class="btn-white btn btn-xs" ng-click="vm.moveUp(entity.id)">提升序号
+                            </button>
+                            <button class="btn-white btn btn-xs" ng-click="vm.moveDown(entity.id)">降低序号
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="12" class="text-center">
+                        <strong><item-count-component page="vm.page" total="vm.totalItems" items-per-page="vm.itemsPerPage"></item-count-component></strong>
+                        <uib-pagination class="pagination-sm m-xs" total-items="vm.totalItems" ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
         </div>
     </div>
 </div>
