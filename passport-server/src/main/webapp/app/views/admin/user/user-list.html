@@ -15,79 +15,76 @@
     </div>
 </div>
 <div class="wrapper wrapper-content p-h-xs animated fadeInDown">
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="ibox">
-                <div class="ibox-title">
-                    <h5></h5>
-                    <div ibox-tools-full-screen-directive></div>
-                </div>
-                <div class="ibox-content p-w-m">
-                    <div class="row p-h-xs">
-                        <div class="col-sm-12">
-                            <div class="form-group">
-                                <label class="control-label" for="login">用户</label>
-                                <input type="text" id="login" name="login" class="form-control"
-                                       placeholder="根据用户名/Email/手机号进行模糊搜索"
-                                       ng-model="vm.criteria.login" ng-keydown="vm.checkPressEnter($event)">
-                            </div>
-                        </div>
-                    </div>
-                    <table class="table table-striped">
-                        <thead>
-                            <tr sort-directive="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
-                                <th sort-by-directive="userName"><span>用户名</span> <span class="fa fa-sort"></span></th>
-                                <th sort-by-directive="email"><span>Email</span> <span class="fa fa-sort"></span></th>
-                                <th sort-by-directive="mobileNo"><span>手机号</span> <span class="fa fa-sort"></span></th>
-                                <th sort-by-directive="activated"><span>是否激活</span> <span class="fa fa-sort"></span></th>
-                                <th sort-by-directive="enabled"><span>是否可用</span> <span class="fa fa-sort"></span></th>
-                                <th sort-by-directive="remarks"><span>备注</span> <span class="fa fa-sort"></span></th>
-                                <th sort-by-directive="modifiedTime"><span>修改时间</span> <span class="fa fa-sort"></span></th>
-                                <th>当前用户</th>
-                                <th>操作</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="entity in vm.entities track by entity.userName">
-                                <td><a class="text-navy" ui-sref=".view({userName: entity.userName})">{{entity.userName}}</a></td>
-                                <td>{{entity.email}}</td>
-                                <td>{{entity.mobileNo}}</td>
-                                <td>
-                                    <span class="label label-danger" ng-click="vm.setActive(entity, true)" ng-show="!entity.activated"
-                                          style="cursor: pointer;">未激活</span>
-                                    <span class="label label-primary" ng-click="vm.setActive(entity, false)" ng-show="entity.activated"
-                                          style="cursor: pointer;">已激活</span>
-                                </td>
-                                <td>
-                                    <span class="label label-danger" ng-click="vm.setEnabled(entity, true)" ng-show="!entity.enabled"
-                                          style="cursor: pointer;">不可用</span>
-                                    <span class="label label-primary" ng-click="vm.setEnabled(entity, false)" ng-show="entity.enabled"
-                                          style="cursor: pointer;">可用</span>
-                                </td>
-                                <td>{{entity.remarks}}</td>
-                                <td>{{entity.modifiedTime | date:'yyyy/MM/dd HH:mm:ss'}}</td>
-                                <td><i class="fa fa-check text-navy" ng-show="vm.currentAccount.userName==entity.userName"></i></td>
-                                <td>
-                                    <div class="btn-group">
-                                        <button class="btn-white btn btn-xs" ui-sref=".view({userName: entity.userName})">查看</button>
-                                        <button class="btn-white btn btn-xs" ui-sref=".edit({userName: entity.userName})">编辑</button>
-                                        <button class="btn-white btn btn-xs" ng-click="vm.del(entity.userName)" has-authority="ROLE_DEVELOPER" ng-disabled="vm.currentAccount.userName==entity.userName">删除</button>
-                                        <button class="btn-white btn btn-xs" ng-click="vm.resetPassword(entity.userName)">重置密码</button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <td colspan="12" class="text-center">
-                                    <strong><item-count-component page="vm.page" total="vm.totalItems" items-per-page="vm.itemsPerPage"></item-count-component></strong>
-                                    <uib-pagination class="pagination-sm m-xs" total-items="vm.totalItems" ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
-                                </td>
-                            </tr>
-                        </tfoot>
-                    </table>
+    <div class="ibox-content m-b-sm">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label class="control-label" for="login">用户</label>
+                    <input type="text" id="login" name="login" class="form-control"
+                           placeholder="根据用户名/Email/手机号进行模糊搜索"
+                           ng-model="vm.criteria.login" ng-keydown="vm.checkPressEnter($event)">
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="ibox">
+        <div class="ibox-title">
+            <div ibox-tools-full-screen-directive></div>
+        </div>
+        <div class="ibox-content p-w-m">
+            <table class="table table-striped">
+                <thead>
+                    <tr sort-directive="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
+                        <th sort-by-directive="userName"><span>用户名</span> <span class="fa fa-sort"></span></th>
+                        <th sort-by-directive="email"><span>Email</span> <span class="fa fa-sort"></span></th>
+                        <th sort-by-directive="mobileNo"><span>手机号</span> <span class="fa fa-sort"></span></th>
+                        <th sort-by-directive="activated"><span>是否激活</span> <span class="fa fa-sort"></span></th>
+                        <th sort-by-directive="enabled"><span>是否可用</span> <span class="fa fa-sort"></span></th>
+                        <th sort-by-directive="remarks"><span>备注</span> <span class="fa fa-sort"></span></th>
+                        <th sort-by-directive="modifiedTime"><span>修改时间</span> <span class="fa fa-sort"></span></th>
+                        <th>当前用户</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="entity in vm.entities track by entity.userName">
+                        <td><a class="text-navy" ui-sref=".view({userName: entity.userName})">{{entity.userName}}</a></td>
+                        <td>{{entity.email}}</td>
+                        <td>{{entity.mobileNo}}</td>
+                        <td>
+                            <span class="label label-danger" ng-click="vm.setActive(entity, true)" ng-show="!entity.activated"
+                                  style="cursor: pointer;">未激活</span>
+                            <span class="label label-primary" ng-click="vm.setActive(entity, false)" ng-show="entity.activated"
+                                  style="cursor: pointer;">已激活</span>
+                        </td>
+                        <td>
+                            <span class="label label-danger" ng-click="vm.setEnabled(entity, true)" ng-show="!entity.enabled"
+                                  style="cursor: pointer;">不可用</span>
+                            <span class="label label-primary" ng-click="vm.setEnabled(entity, false)" ng-show="entity.enabled"
+                                  style="cursor: pointer;">可用</span>
+                        </td>
+                        <td>{{entity.remarks}}</td>
+                        <td>{{entity.modifiedTime | date:'yyyy/MM/dd HH:mm:ss'}}</td>
+                        <td><i class="fa fa-check text-navy" ng-show="vm.currentAccount.userName==entity.userName"></i></td>
+                        <td>
+                            <div class="btn-group">
+                                <button class="btn-white btn btn-xs" ui-sref=".view({userName: entity.userName})">查看</button>
+                                <button class="btn-white btn btn-xs" ui-sref=".edit({userName: entity.userName})">编辑</button>
+                                <button class="btn-white btn btn-xs" ng-click="vm.del(entity.userName)" has-authority="ROLE_DEVELOPER" ng-disabled="vm.currentAccount.userName==entity.userName">删除</button>
+                                <button class="btn-white btn btn-xs" ng-click="vm.resetPassword(entity.userName)">重置密码</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="12" class="text-center">
+                            <strong><item-count-component page="vm.page" total="vm.totalItems" items-per-page="vm.itemsPerPage"></item-count-component></strong>
+                            <uib-pagination class="pagination-sm m-xs" total-items="vm.totalItems" ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
         </div>
     </div>
 </div>
