@@ -4,65 +4,62 @@
     </div>
 </div>
 <div class="wrapper wrapper-content p-h-xs animated fadeInDown">
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="ibox">
-                <div class="ibox-title">
-                    <h5></h5>
-                    <div ibox-tools-directive></div>
-                </div>
-                <div class="ibox-content p-w-m">
-                    <div class="row p-h-xs">
-                        <div class="col-sm-12">
-                            <div class="form-group">
-                                <label class="control-label">用户名</label>
-                                <input type="text" class="form-control" ng-model="vm.criteria.principal"
-                                       ng-keydown="vm.checkPressEnter($event)">
-                            </div>
-                        </div>
-                    </div>
-                    <table class="table table-striped">
-                        <thead>
-                        <tr sort-directive="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
-                            <th>ID</th>
-                            <th sort-by-directive="principal"><span>用户名</span> <span class="fa fa-sort"></span></th>
-                            <th sort-by-directive="created"><span>创建时间</span> <span class="fa fa-sort"></span></th>
-                            <th sort-by-directive="accessed"><span>访问时间</span> <span class="fa fa-sort"></span></th>
-                            <th sort-by-directive="interval"><span>有效期</span> <span class="fa fa-sort"></span></th>
-                            <th sort-by-directive="expireAt"><span>失效时间</span> <span class="fa fa-sort"></span></th>
-                            <th>操作</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr ng-repeat="entity in vm.entities">
-                            <td>{{entity.id}}</td>
-                            <td>{{entity.principal}}</td>
-                            <td>{{entity.created | date:'yyyy/MM/dd HH:mm:ss'}}</td>
-                            <td>{{entity.accessed | date:'yyyy/MM/dd HH:mm:ss'}}</td>
-                            <td>{{entity.interval}}</td>
-                            <td>{{entity.expireAt | date:'yyyy/MM/dd HH:mm:ss'}}</td>
-                            <td>
-                                <div class="btn-group">
-                                    <button class="btn-white btn btn-xs" ng-click="vm.del(entity.id)">删除</button>
-                                </div>
-                            </td>
-                        </tr>
-                        </tbody>
-                        <tfoot>
-                        <tr>
-                            <td colspan="12" class="text-center">
-                                <strong>
-                                    <item-count-component page="vm.page" total="vm.totalItems"
-                                                          items-per-page="vm.itemsPerPage"></item-count-component>
-                                </strong>
-                                <uib-pagination class="pagination-sm m-xs" total-items="vm.totalItems"
-                                                ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
-                            </td>
-                        </tr>
-                        </tfoot>
-                    </table>
+    <div class="ibox-content m-b-sm">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label class="control-label">用户名</label>
+                    <input type="text" class="form-control" ng-model="vm.criteria.principal"
+                           ng-keydown="vm.checkPressEnter($event)">
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="ibox">
+        <div class="ibox-title">
+            <div ibox-tools-directive></div>
+        </div>
+        <div class="ibox-content p-w-m">
+            <table class="table table-striped">
+                <thead>
+                <tr sort-directive="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
+                    <th>ID</th>
+                    <th sort-by-directive="principal"><span>用户名</span> <span class="fa fa-sort"></span></th>
+                    <th sort-by-directive="created"><span>创建时间</span> <span class="fa fa-sort"></span></th>
+                    <th sort-by-directive="accessed"><span>访问时间</span> <span class="fa fa-sort"></span></th>
+                    <th sort-by-directive="interval"><span>有效期</span> <span class="fa fa-sort"></span></th>
+                    <th sort-by-directive="expireAt"><span>失效时间</span> <span class="fa fa-sort"></span></th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="entity in vm.entities">
+                    <td>{{entity.id}}</td>
+                    <td>{{entity.principal}}</td>
+                    <td>{{entity.created | date:'yyyy/MM/dd HH:mm:ss'}}</td>
+                    <td>{{entity.accessed | date:'yyyy/MM/dd HH:mm:ss'}}</td>
+                    <td>{{entity.interval}}</td>
+                    <td>{{entity.expireAt | date:'yyyy/MM/dd HH:mm:ss'}}</td>
+                    <td>
+                        <div class="btn-group">
+                            <button class="btn-white btn btn-xs" ng-click="vm.del(entity.id)">删除</button>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="12" class="text-center">
+                        <strong>
+                            <item-count-component page="vm.page" total="vm.totalItems"
+                                                  items-per-page="vm.itemsPerPage"></item-count-component>
+                        </strong>
+                        <uib-pagination class="pagination-sm m-xs" total-items="vm.totalItems"
+                                        ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
         </div>
     </div>
 </div>
