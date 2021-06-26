@@ -15,51 +15,47 @@
     </div>
 </div>
 <div class="wrapper wrapper-content p-h-xs animated fadeInDown">
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="ibox">
-                <div class="ibox-title">
-                    <h5></h5>
-                    <div ibox-tools-directive></div>
-                </div>
-                <div class="ibox-content p-w-m">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr sort-directive="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
-                                <th sort-by-directive="name"><span>应用名称</span> <span class="fa fa-sort"></span></th>
-                                <th sort-by-directive="enabled"><span>是否可用</span> <span class="fa fa-sort"></span></th>
-                                <th>操作</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="entity in vm.entities">
-                                <td>{{entity.name}}</td>
-                                <td>
-                                    <span class="label label-danger" ng-click="vm.setEnabled(entity, true)" ng-show="!entity.enabled"
-                                          style="cursor: pointer;">否</span>
-                                    <span class="label label-primary" ng-click="vm.setEnabled(entity, false)" ng-show="entity.enabled"
-                                          style="cursor: pointer;">是</span>
-                                </td>
-                                <td>
-                                    <div class="btn-group">
-                                        <button class="btn-white btn btn-xs" ui-sref=".view({name: entity.name})">查看</button>
-                                        <button class="btn-white btn btn-xs" ui-sref=".edit({name: entity.name})">编辑</button>
-                                        <button class="btn-white btn btn-xs" ng-click="vm.del(entity.name)">删除</button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <td colspan="12" class="text-center">
-                                    <strong><item-count-component page="vm.page" total="vm.totalItems" items-per-page="vm.itemsPerPage"></item-count-component></strong>
-                                    <uib-pagination class="pagination-sm m-xs" total-items="vm.totalItems" ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
-                                </td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
-            </div>
+    <div class="ibox">
+        <div class="ibox-title">
+            <h5></h5>
+            <div ibox-tools-directive></div>
+        </div>
+        <div class="ibox-content p-w-m">
+            <table class="table table-striped">
+                <thead>
+                    <tr sort-directive="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
+                        <th sort-by-directive="name"><span>应用名称</span> <span class="fa fa-sort"></span></th>
+                        <th sort-by-directive="enabled"><span>是否可用</span> <span class="fa fa-sort"></span></th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="entity in vm.entities">
+                        <td>{{entity.name}}</td>
+                        <td>
+                            <span class="label label-danger" ng-click="vm.setEnabled(entity, true)" ng-show="!entity.enabled"
+                                  style="cursor: pointer;">否</span>
+                            <span class="label label-primary" ng-click="vm.setEnabled(entity, false)" ng-show="entity.enabled"
+                                  style="cursor: pointer;">是</span>
+                        </td>
+                        <td>
+                            <div class="btn-group">
+                                <button class="btn-white btn btn-xs" ui-sref=".view({name: entity.name})">查看</button>
+                                <button class="btn-white btn btn-xs" ui-sref=".edit({name: entity.name})">编辑</button>
+                                <button class="btn-white btn btn-xs" ng-click="vm.del(entity.name)">删除</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="12" class="text-center">
+                            <strong><item-count-component page="vm.page" total="vm.totalItems" items-per-page="vm.itemsPerPage"></item-count-component></strong>
+                            <uib-pagination class="pagination-sm m-xs" total-items="vm.totalItems" ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
         </div>
     </div>
 </div>
